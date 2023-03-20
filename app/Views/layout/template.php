@@ -10,7 +10,7 @@
     <title>Dashboard - SB Admin</title>
     <link href="assets/datatable/style.css" rel="stylesheet" />
     <link href="assets/bootstrap-5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
     <script src="assets/font-awesome/all.js"></script>
 </head>
 
@@ -133,12 +133,9 @@
         </div>
     </div>
     <script src="assets/bootstap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="assets/chart/chart.min.js"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="assets/js/scripts.js"></script>
     <script src="assets/datatable/simple-datatables.js"></script>
-    <script src="js/datatables-simple-demo.js"></script>
+    <script src="assets/js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

@@ -134,8 +134,11 @@
     </div>
     <script src="assets/bootstap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/jquery-3.6.4.min.js"></script>
     <script src="assets/datatable/simple-datatables.js"></script>
     <script src="assets/js/datatables-simple-demo.js"></script>
+
+    <?= $this->renderSection('javascript'); ?>
 </body>
 
 </html>

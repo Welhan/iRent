@@ -8,11 +8,12 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Login</title>
+    <link href="assets/bootstrap-5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/styles.css" rel="stylesheet" />
     <script src="assets/font-awesome/all.js"></script>
 </head>
 
-<body class="bg-primary">
+<body class="bg-primary-subtle">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
@@ -24,47 +25,29 @@
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form action="logining" method="post">
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                            <label for="inputEmail">Email address</label>
+                                            <input class="form-control" id="username" type="text" name="username" autofocus />
+                                            <label for="username">Username</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                                            <input class="form-control" id="inputPassword" type="password" name="password" />
                                             <label for="inputPassword">Password</label>
                                         </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                            <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <a class="small" href="password.html">Forgot Password?</a>
-                                            <a class="btn btn-primary" href="index.html">Login</a>
+
+                                        <div class="d-flex justify-content-center mt-4 mb-0">
+                                            <button type="submit" class="btn btn-primary">Login</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                    <div class="text-muted">Copyright &copy; Your Website 2022</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
-        </div>
-        <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
     <script src="assets/bootstap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>

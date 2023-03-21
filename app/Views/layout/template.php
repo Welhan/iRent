@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="WProject" />
-    <title>Dashboard - SB Admin</title>
-    <link href="assets/datatable/style.css" rel="stylesheet" />
+    <title>Dashboard</title>
     <link href="assets/bootstrap-5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/styles.css" rel="stylesheet" />
+    <link href="assets/datatable/style.css" rel="stylesheet" />
     <script src="assets/font-awesome/all.js"></script>
 </head>
 
@@ -37,7 +37,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -132,9 +132,9 @@
             </footer>
         </div>
     </div>
-    <script src="assets/bootstap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/scripts.js"></script>
     <script src="assets/js/jquery-3.6.4.min.js"></script>
+    <script src="assets/bootstrap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/scripts.js"></script>
     <script src="assets/datatable/simple-datatables.js"></script>
     <script src="assets/js/datatables-simple-demo.js"></script>
 

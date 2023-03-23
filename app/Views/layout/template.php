@@ -114,7 +114,19 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
+                <!-- Alert Jika Client Sudah Mau Expired -->
                 <div class="container-fluid px-4">
+                    <?php if (check_Expired(session('userID'))) : ?>
+                        <div class="row">
+                            <div class="col-lg">
+                                <div class="alert alert-warning mt-3" role="alert">
+                                    A simple warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Akhir Alert Expired -->
                     <?= $this->renderSection('content'); ?>
                 </div>
             </main>

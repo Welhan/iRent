@@ -17,13 +17,6 @@ class Auth extends BaseController
     {
         if (cek_login(session('userID'))) return redirect()->to('/');
 
-        // $user = [
-        //     'username' => 'cwh',
-        //     'password' => 'Hello123@'
-        // ];
-
-        // dd($this->userModel->getUserLogin($user));
-
         return view('login/index');
     }
 

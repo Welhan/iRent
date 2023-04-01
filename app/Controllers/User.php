@@ -9,6 +9,7 @@ class User extends BaseController
 {
 
     protected $userModel;
+    protected $clientModel;
 
     public function __construct()
     {
@@ -26,12 +27,41 @@ class User extends BaseController
     public function userData()
     {
         if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
             $data = [
                 'users' => $this->userModel->user()
             ];
 
             $msg = [
                 'data' => view('user/tableData', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('user');
+        }
+    }
+
+    public function formNew()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $msg = [
+                'data' => view('user/modal/newModal')
             ];
 
             echo json_encode($msg);

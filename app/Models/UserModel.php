@@ -48,6 +48,9 @@ class UserModel extends Model
         $builder = $this->table($this->table);
         $builder->select('user.*,client.nama AS client, client.valid_until AS valid');
         $builder->join('client', 'user.clientID = client.id');
+        if (session('clientID') != 1) {
+            $builder->where('clientID', session('clientID'));
+        }
         $builder->orderBy('id', 'desc');
 
         return $builder->get()->getResultObject();

@@ -35,7 +35,8 @@ class Auth extends BaseController
         if ($login) {
             $profile = $this->userModel->where('username', $username)->find()[0];
             $session = [
-                'userID' => $profile->id
+                'userID' => $profile->id,
+                'clientID' => $profile->clientID
             ];
 
             session()->set($session);

@@ -42,6 +42,8 @@ $routes->get('/', 'Dashboard::index');
 $routes->group('user', static function ($routes) {
     $routes->get('', 'User::index');
     $routes->get('getData', 'User::userData');
+    $routes->get('newUser', 'User::formNew');
+    $routes->post('saveUser', 'User::saveUser');
 });
 /*
  * --------------------------------------------------------------------

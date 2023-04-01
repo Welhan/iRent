@@ -8,7 +8,7 @@
     <div class="col-lg-10">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></button>
+                <button class="btn btn-primary btn-sm" id="btnNew"><i class="fas fa-plus"></i></button>
             </div>
             <div class="card-body">
                 <div id="tableData"></div>
@@ -16,6 +16,8 @@
         </div>
     </div>
 </div>
+
+<div id="viewModal" style="display: none;"></div>
 
 <?= $this->endSection(); ?>
 
@@ -46,6 +48,32 @@
 
     $(document).ready(function() {
         getData();
+
+        $('#btnNew').click(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/user/newUser',
+                dataType: 'json',
+                beforeSend: function() {
+                    $('.btn').attr('disabled', 'disabled');
+                },
+                success: function(response) {
+                    $('.btn').removeAttr('disabled');
+                    if (response.error) {
+                        if (response.error.logout) {
+                            window.location.href = response.error.logout
+                        }
+                    } else {
+                        $('#viewModal').html(response.data).show();
+                        $('#new').modal('show');
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        })
     })
 </script>
 <?= $this->endSection(); ?>

@@ -93,4 +93,4 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
-defined('REMINDER_EXP')      || define('REMINDER_EXP', 10);    // highest automatically-assigned error code
+defined('REMINDER_EXP')      || define('REMINDER_EXP', 10);    // REMINDER EXPIRED

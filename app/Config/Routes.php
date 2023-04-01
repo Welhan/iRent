@@ -45,6 +45,14 @@ $routes->group('user', static function ($routes) {
     $routes->get('newUser', 'User::formNew');
     $routes->post('saveUser', 'User::saveUser');
 });
+
+// Client Menu
+$routes->group('client', static function ($routes) {
+    $routes->get('', 'Client::index');
+    $routes->get('getData', 'Client::clientData');
+    $routes->get('newClient', 'Client::formNew');
+    $routes->post('saveClient', 'Client::saveClient');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

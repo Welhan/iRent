@@ -42,4 +42,14 @@ class UserModel extends Model
             return false;
         };
     }
+
+    public function user()
+    {
+        $builder = $this->table($this->table);
+        $builder->select('user.*,client.nama AS client, client.valid_until AS valid');
+        $builder->join('client', 'user.clientID = client.id');
+        $builder->orderBy('id', 'desc');
+
+        return $builder->get()->getResultObject();
+    }
 }

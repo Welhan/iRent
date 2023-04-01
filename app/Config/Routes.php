@@ -37,6 +37,12 @@ $routes->get('/logout', 'Auth::logout');
 
 $routes->get('/', 'Dashboard::index');
 
+// User Menu
+// $routes->get('/user', 'User::index');
+$routes->group('user', static function ($routes) {
+    $routes->get('', 'User::index');
+    $routes->get('getData', 'User::userData');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

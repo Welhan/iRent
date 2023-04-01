@@ -10,29 +10,26 @@ $menus = generateMenu(session('userID'));
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
-    <meta name="author" content="WProject" />
-    <title>Dashboard</title>
+    <meta name="WProject" content="" />
+    <title>iRent</title>
+    <!-- CSS Fontawsome -->
+    <link rel="stylesheet" type="text/css" href="assets/fontawesome/css/fontawesome.css">
     <link href="assets/bootstrap-5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/styles.css" rel="stylesheet" />
-    <link href="assets/datatable/style.css" rel="stylesheet" />
+    <link href="assets/datatable/datatables.css" rel="stylesheet" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" /> -->
     <script src="assets/font-awesome/all.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand ps-3" href="/">LinkedRent</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
+
         <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <ul class="navbar-nav me-lg-4 ms-auto me-0 me-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -65,7 +62,7 @@ $menus = generateMenu(session('userID'));
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    <?= ucwords(user_profile(session('userID'))->nama); ?>
                 </div>
             </nav>
         </div>
@@ -82,7 +79,6 @@ $menus = generateMenu(session('userID'));
                             </div>
                         </div>
                     <?php endif; ?>
-
                     <!-- Akhir Alert Expired -->
 
                     <?= $this->renderSection('content'); ?>
@@ -105,8 +101,9 @@ $menus = generateMenu(session('userID'));
     <script src="assets/js/jquery-3.6.4.min.js"></script>
     <script src="assets/bootstrap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/scripts.js"></script>
-    <script src="assets/datatable/simple-datatables.js"></script>
-    <script src="assets/js/datatables-simple-demo.js"></script>
+    <script src="assets/datatable/datatables.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
+    <!-- <script src="assets/js/datatables-simple-demo.js"></script> -->
 
     <?= $this->renderSection('javascript'); ?>
 </body>

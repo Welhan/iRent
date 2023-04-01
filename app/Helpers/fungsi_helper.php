@@ -84,3 +84,10 @@ function generateSubmenu($menu_id, $user_id = '')
 
     return $builder->get()->getResultObject();
 }
+
+function user_profile($user_id)
+{
+    $db = \config\Database::connect();
+
+    return $db->table('user')->getWhere(['id' => $user_id])->getFirstRow();
+}

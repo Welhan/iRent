@@ -66,7 +66,7 @@
                         }
                     } else {
                         $('#viewModal').html(response.data).show();
-                        $('#new').modal('show');
+                        $('#newModal').modal('show');
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

@@ -14,8 +14,8 @@
                     <td><?= $no++; ?></td>
                     <td><?= ucwords($client->nama); ?></td>
                     <td>
-                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" checked autocomplete="off" <?= (!check_Expired(session('userID'))) ? (($client->active) ? 'checked' : '') : ''; ?> disabled>
-                        <label class="btn btn-outline-success btn-sm" for="btn-check-2-outlined"><?= (!check_Expired(session('userID'))) ? (($client->active) ? 'Active' : 'Expired Soon') : 'Not Active'; ?></label><br>
+                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" <?= (!check_Expired(session('userID')) ? (($client->active) ? 'checked' : '') : ''); ?> disabled>
+                        <label class="btn <?= check_Expired(session('userID')) ? 'btn-outline-info' : ($client->active ? 'btn-outline-success' : 'btn-outline-danger'); ?> btn-sm" for="btn-check-2-outlined"><?= (check_Expired(session('userID'))) ? 'Expired Soon' : (($client->active) ? 'Active' : 'Not Active'); ?></label><br>
                     </td>
                     <td><?= ucwords(date('d-M-Y', strtotime($client->valid_until))); ?></td>
                     <td>

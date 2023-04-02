@@ -121,6 +121,7 @@ class Client extends BaseController
             $client = (($this->request->getPost('client')) ? $this->request->getPost('client') : '');
             $validClient = (($this->request->getPost('valid')) ? $this->request->getPost('valid') : 0);
             $aktif = (($this->request->getPost('active')) ? $this->request->getPost('active') : 0);
+            $validDate = ($this->request->getPost('expDate') ? $this->request->getPost('expDate') : 0);
 
             if ($validClient) {
                 $expDate = date('Y-m-d', strtotime($validClient . ' ' . 'month', strtotime(date('Y-m-d'))));
@@ -132,7 +133,7 @@ class Client extends BaseController
                 $data = [
                     'id' => $id,
                     'nama' => htmlspecialchars($client, true),
-                    'valid_until' => $expDate,
+                    'valid_until' => ($validClient) ? $expDate : $validDate,
                     'active' => $aktif,
                     'userUpdate' => session('userID'),
                     'dateUpdated' => Time::now()

@@ -20,7 +20,7 @@
                     <td><?= ucwords(date('d-M-Y', strtotime($client->valid_until))); ?></td>
                     <td>
                         <button type="button" class="btn btn-secondary btn-sm"><i class="fa-solid fa-eye"></i></button>
-                        <button type="button" class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn btn-info btn-sm" onclick="edit(<?= $client->id; ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
@@ -31,4 +31,32 @@
 
 <script>
     $('#datatablesSimple').DataTable()
+
+    function edit(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/client/edit',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('.btn').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                $('.btn').removeAttr('disabled');
+                if (response.error) {
+                    if (response.error.logout) {
+                        window.location.href = response.error.logout
+                    }
+                } else {
+                    $('#viewModal').html(response.data).show();
+                    $('#editModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        })
+    }
 </script>

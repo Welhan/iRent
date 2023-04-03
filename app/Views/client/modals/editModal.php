@@ -3,11 +3,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">New Client</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Client</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="client/saveClient" class="formSubmit">
+            <form action="client/editClient" class="formSubmit" autocomplete="off">
                 <?= csrf_field(); ?>
                 <div class="modal-body">
                     <input type="hidden" name="id" value="<?= $client->id; ?>">
@@ -27,7 +27,7 @@
                     <div class="row mb-3">
                         <label for="valid" class="col-sm-2 col-form-label">Valid</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="valid" name="valid" disabled>
+                            <input type="text" class="form-control" id="valid" name="valid" value="0">
                             <div id="errValid" class="invalid-feedback"></div>
                         </div>
                         <label class="col-sm-2 col-form-label">Month</label>
@@ -37,6 +37,13 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="1" <?= ($client->active) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="active">Active</label>
                     </div>
+                    <!-- Update Information -->
+                    <?php if ($client->userUpdate) : ?>
+                        <div class="row mt-3">
+                            <label class="text-secondary">Last Update: <?= ucwords(user_profile($client->userUpdate)->nama); ?> (<?= date('d-M-Y', strtotime($client->dateUpdated)); ?>)</label>
+                        </div>
+                    <?php endif; ?>
+                    <!-- End Update Information -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

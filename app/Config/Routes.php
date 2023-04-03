@@ -52,6 +52,10 @@ $routes->group('client', static function ($routes) {
     $routes->get('getData', 'Client::clientData');
     $routes->get('newClient', 'Client::formNew');
     $routes->post('saveClient', 'Client::saveClient');
+    $routes->post('edit', 'Client::formEdit');
+    $routes->post('editClient', 'Client::editClient');
+    $routes->post('delete', 'Client::formDelete');
+    $routes->post('deleteClient', 'Client::deleteClient');
 });
 /*
  * --------------------------------------------------------------------

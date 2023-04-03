@@ -53,6 +53,32 @@ function check_Expired($userID)
     }
 }
 
+function check_client($clientID)
+{
+    $db = \config\Database::connect();
+
+    $builder = $db->table('client');
+    $builder->select('*');
+    $builder->where(['id' => $clientID]);
+
+    $valid = $builder->get()->getResultArray();
+
+    // return $valid[0]['valid_until'];
+
+    $expiry_date = $valid[0]['valid_until'];
+    $today = date('d-m-Y', time());
+    $exp = date('d-m-Y', strtotime($expiry_date));
+    $expDate =  date_create($exp);
+    $todayDate = date_create($today);
+    $diff =  date_diff($todayDate, $expDate);
+
+    if ($diff->format("%R%a") <= REMINDER_EXP) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function generateMenu($user_id)
 {
     $db = \config\Database::connect();

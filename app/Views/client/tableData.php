@@ -10,12 +10,12 @@
         <tbody>
             <?php $no = 1; ?>
             <?php foreach ($clients as $client) : ?>
-                <tr class="text-center <?= (check_Expired(session('userID')) ? 'bg-warning' : ''); ?>">
+                <tr class="text-center <?= (check_client($client->id) ? 'bg-warning' : ''); ?>">
                     <td><?= $no++; ?></td>
                     <td><?= ucwords($client->nama); ?></td>
                     <td>
-                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" <?= (!check_Expired(session('userID')) ? (($client->active) ? 'checked' : '') : ''); ?> disabled>
-                        <label class="btn <?= check_Expired(session('userID')) ? 'btn-outline-info' : ($client->active ? 'btn-outline-success' : 'btn-outline-danger'); ?> btn-sm" for="btn-check-2-outlined"><?= (check_Expired(session('userID'))) ? 'Expired Soon' : (($client->active) ? 'Active' : 'Not Active'); ?></label><br>
+                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" <?= (!check_client($client->id) ? (($client->active) ? 'checked' : '') : ''); ?> disabled>
+                        <label class="btn <?= check_client($client->id) ? 'btn-outline-danger' : ($client->active ? 'btn-outline-success' : 'btn-outline-danger'); ?> btn-sm" for="btn-check-2-outlined"><?= (check_client($client->id)) ? 'Expired Soon' : (($client->active) ? 'Active' : 'Not Active'); ?></label><br>
                     </td>
                     <td><?= ucwords(date('d-M-Y', strtotime($client->valid_until))); ?></td>
                     <td>

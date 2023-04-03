@@ -21,6 +21,7 @@ class Client extends BaseController
         if (!cek_login(session('userID'))) return redirect()->to('/login');
 
         // dd(date('Y-m-d', strtotime(14 . ' ' . 'days', strtotime(date('Y-m-d')))));
+        // dd(check_Expired(1));
 
         $data = [
             'active'
@@ -144,11 +145,9 @@ class Client extends BaseController
                 return;
             }
 
-            $id = (($this->request->getPost('id')) ? $this->request->getPost('id') : 0);
             $client = (($this->request->getPost('client')) ? $this->request->getPost('client') : '');
             $validClient = (($this->request->getPost('valid')) ? $this->request->getPost('valid') : 0);
             $aktif = (($this->request->getPost('active')) ? $this->request->getPost('active') : 0);
-            $validDate = ($this->request->getPost('expDate') ? $this->request->getPost('expDate') : 0);
 
             if ($validClient) {
                 $expDate = date('Y-m-d', strtotime($validClient . ' ' . 'month', strtotime(date('Y-m-d'))));
@@ -156,24 +155,14 @@ class Client extends BaseController
                 $expDate = date('Y-m-d', strtotime(14 . ' ' . 'days', strtotime(date('Y-m-d'))));
             }
 
-            if ($id) {
-                $data = [
-                    'id' => $id,
-                    'nama' => htmlspecialchars($client, true),
-                    'valid_until' => ($validClient) ? $expDate : $validDate,
-                    'active' => $aktif,
-                    'userUpdate' => session('userID'),
-                    'dateUpdated' => Time::now()
-                ];
-            } else {
-                $data = [
-                    'nama' => htmlspecialchars($client, true),
-                    'valid_until' => $expDate,
-                    'active' => $aktif,
-                    'userAdded' => session('userID'),
-                    'dateAdded' => Time::now()
-                ];
-            }
+            $data = [
+                'nama' => htmlspecialchars($client, true),
+                'valid_until' => $expDate,
+                'active' => $aktif,
+                'userAdded' => session('userID'),
+                'dateAdded' => Time::now()
+            ];
+
             try {
                 if ($this->clientModel->save($data)) {
                     $alert = [

@@ -5,7 +5,7 @@
 <h1 class="mt-4 mb-4">User Menu</h1>
 
 <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-11">
         <div class="card">
             <div class="card-header">
                 <button class="btn btn-primary btn-sm" id="btnNew"><i class="fas fa-plus"></i></button>

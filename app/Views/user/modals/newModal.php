@@ -41,12 +41,11 @@
                     <div class="row mb-3">
                         <label for="client" class="col-sm-2 col-form-label">Client</label>
                         <div class="col-sm-10">
-                            <select class="form-select" aria-label="Default select example" id="client" name="client">
+                            <select class="form-select select2" style="width: 100%;" id="client" name="client">
                                 <option>Choose Client</option>
                                 <?php foreach ($clients as $client) : ?>
                                     <option value="<?= $client->id; ?>"><?= ucwords($client->nama); ?></option>
                                 <?php endforeach; ?>
-
                             </select>
                             <div id="errClient" class="invalid-feedback"></div>
                         </div>
@@ -84,6 +83,12 @@
 
 <script>
     $(document).ready(function() {
+
+        $('.select2').select2({
+            dropdownParent: $('#newModal')
+        })
+
+
         $('.formSubmit').submit(function(e) {
             e.preventDefault();
 

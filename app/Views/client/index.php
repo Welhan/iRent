@@ -8,7 +8,8 @@
     <div class="col-lg-11">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary btn-sm" id="btnNew"><i class="fas fa-plus"></i></button>
+                <!-- <button class="btn btn-primary btn-sm" id="btnNew"><i class="fas fa-plus"></i></button> -->
+                <a href="/newClient" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></a>
             </div>
             <div class="card-body">
                 <div id="tableData"></div>

@@ -14,11 +14,15 @@ $menus = generateMenu(session('userID'));
     <title>iRent</title>
     <!-- CSS Fontawsome -->
     <link rel="stylesheet" type="text/css" href="assets/fontawesome/css/fontawesome.css">
+    <!-- Select2 -->
     <link href="assets/bootstrap-5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/select2/css/select2.min.css">
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/datatable/datatables.css" rel="stylesheet" />
     <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" /> -->
     <script src="assets/font-awesome/all.js"></script>
+
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -99,9 +103,11 @@ $menus = generateMenu(session('userID'));
         </div>
     </div>
     <script src="assets/js/jquery-3.6.4.min.js"></script>
+    <script src="assets/select2/js/select2.full.min.js"></script>
     <script src="assets/bootstrap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/scripts.js"></script>
     <script src="assets/datatable/datatables.js"></script>
+
     <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
     <!-- <script src="assets/js/datatables-simple-demo.js"></script> -->
 

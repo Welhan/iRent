@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ClientModel;
+use App\Models\KotaModel;
 use CodeIgniter\I18n\Time;
 use Exception;
 
@@ -11,10 +12,12 @@ class Client extends BaseController
 {
     protected $clientModel;
     protected $submenuModel;
+    protected $kotaModel;
 
     public function __construct()
     {
         $this->clientModel = new ClientModel();
+        $this->kotaModel = new KotaModel();
     }
     public function index()
     {
@@ -53,6 +56,18 @@ class Client extends BaseController
         } else {
             return redirect()->to('client');
         }
+    }
+
+    public function newClient()
+    {
+        if (!cek_login(session('userID'))) return redirect()->to('/login');
+        if (!check_access(session('userID'), 2)) return redirect()->to('/');
+
+        $data = [
+            'kota' => $this->kotaModel->find()
+        ];
+
+        return view('client/new', $data);
     }
 
     public function formNew()
@@ -147,6 +162,8 @@ class Client extends BaseController
             }
 
             $client = (($this->request->getPost('client')) ? $this->request->getPost('client') : '');
+            $provinsi = (($this->request->getPost('provinsi')) ? $this->request->getPost('provinsi') : '');
+            $kota = (($this->request->getPost('kota')) ? $this->request->getPost('kota') : '');
             $validClient = (($this->request->getPost('valid')) ? $this->request->getPost('valid') : 0);
             $aktif = (($this->request->getPost('active')) ? $this->request->getPost('active') : 0);
 
@@ -158,6 +175,8 @@ class Client extends BaseController
 
             $data = [
                 'nama' => htmlspecialchars($client, true),
+                'kota' => htmlspecialchars($kota, true),
+                'provinsi' => htmlspecialchars($provinsi, true),
                 'valid_until' => $expDate,
                 'active' => $aktif,
                 'userAdded' => session('userID'),
@@ -172,7 +191,8 @@ class Client extends BaseController
                     ];
 
                     $msg = [
-                        'process' => 'success'
+                        'process' => 'success',
+                        'url' => '/client'
                     ];
                     session()->setFlashdata($alert);
                 }
@@ -191,6 +211,21 @@ class Client extends BaseController
         }
     }
 
+    public function updateClient()
+    {
+        if (!cek_login(session('userID'))) return redirect()->to('/login');
+        if (!check_access(session('userID'), 2)) return redirect()->to('/');
+
+        $id = $this->request->getVar('id');
+
+        $data = [
+            'client' => $this->clientModel->find($id),
+            'kota' => $this->kotaModel->find()
+        ];
+
+        return view('client/edit', $data);
+    }
+
     public function editClient()
     {
         if ($this->request->isAJAX()) {
@@ -204,6 +239,8 @@ class Client extends BaseController
 
             $id = (($this->request->getPost('id')) ? $this->request->getPost('id') : 0);
             $client = (($this->request->getPost('client')) ? $this->request->getPost('client') : '');
+            $provinsi = (($this->request->getPost('provinsi')) ? $this->request->getPost('provinsi') : '');
+            $kota = (($this->request->getPost('kota')) ? $this->request->getPost('kota') : '');
             $validClient = (($this->request->getPost('valid')) ? $this->request->getPost('valid') : 0);
             $aktif = (($this->request->getPost('active')) ? $this->request->getPost('active') : 0);
             $validDate = ($this->request->getPost('expDate') ? $this->request->getPost('expDate') : 0);
@@ -257,6 +294,8 @@ class Client extends BaseController
             $data = [
                 'id' => $id,
                 'nama' => htmlspecialchars($client, true),
+                'kota' => htmlspecialchars($kota, true),
+                'provinsi' => htmlspecialchars($provinsi, true),
                 'valid_until' => ($validClient) ? $expDate : $validDate,
                 'active' => $aktif,
                 'userUpdate' => session('userID'),
@@ -271,7 +310,8 @@ class Client extends BaseController
                     ];
 
                     $msg = [
-                        'process' => 'success'
+                        'process' => 'success',
+                        'url' => '/client'
                     ];
                     session()->setFlashdata($alert);
                 }

@@ -3,6 +3,7 @@
         <thead class="bg-primary-subtle">
             <th class="text-center">#</th>
             <th class="text-center">Client</th>
+            <th class="text-center">Daerah</th>
             <th class="text-center">Status</th>
             <th class="text-center">Tanggal Expired</th>
             <th class="text-center"></th>
@@ -13,6 +14,7 @@
                 <tr class="text-center <?= (check_client($client->id) ? 'bg-warning' : ''); ?>">
                     <td><?= $no++; ?></td>
                     <td><?= ucwords($client->nama); ?></td>
+                    <td><?= ucwords($client->kota); ?> (<?= ucwords($client->provinsi); ?>)</td>
                     <td>
                         <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" <?= (!check_client($client->id) ? (($client->active) ? 'checked' : '') : ''); ?> disabled>
                         <label class="btn <?= check_client($client->id) ? 'btn-outline-danger' : ($client->active ? 'btn-outline-success' : 'btn-outline-danger'); ?> btn-sm" for="btn-check-2-outlined"><?= (check_client($client->id)) ? 'Expired Soon' : (($client->active) ? 'Active' : 'Not Active'); ?></label><br>
@@ -32,32 +34,36 @@
 <script>
     $('#datatablesSimple').DataTable()
 
+    // function edit(id) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/client/edit',
+    //         data: {
+    //             id: id
+    //         },
+    //         dataType: 'json',
+    //         beforeSend: function() {
+    //             $('.btn').attr('disabled', 'disabled');
+    //         },
+    //         success: function(response) {
+    //             $('.btn').removeAttr('disabled');
+    //             if (response.error) {
+    //                 if (response.error.logout) {
+    //                     window.location.href = response.error.logout
+    //                 }
+    //             } else {
+    //                 $('#viewModal').html(response.data).show();
+    //                 $('#editModal').modal('show');
+    //             }
+    //         },
+    //         error: function(xhr, ajaxOptions, thrownError) {
+    //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+    //         }
+    //     })
+    // }
+
     function edit(id) {
-        $.ajax({
-            type: 'POST',
-            url: '/client/edit',
-            data: {
-                id: id
-            },
-            dataType: 'json',
-            beforeSend: function() {
-                $('.btn').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                $('.btn').removeAttr('disabled');
-                if (response.error) {
-                    if (response.error.logout) {
-                        window.location.href = response.error.logout
-                    }
-                } else {
-                    $('#viewModal').html(response.data).show();
-                    $('#editModal').modal('show');
-                }
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        })
+        window.location.href = 'editClient?id=' + id;
     }
 
     function deleteClient(id) {

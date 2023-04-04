@@ -47,12 +47,14 @@ $routes->group('user', static function ($routes) {
 });
 
 // Client Menu
+$routes->get('/newClient', 'Client::newClient');
+$routes->get('/editClient', 'Client::updateClient');
 $routes->group('client', static function ($routes) {
     $routes->get('', 'Client::index');
     $routes->get('getData', 'Client::clientData');
-    $routes->get('newClient', 'Client::formNew');
+    // $routes->get('newClient', 'Client::formNew');
     $routes->post('saveClient', 'Client::saveClient');
-    $routes->post('edit', 'Client::formEdit');
+    // $routes->post('edit', 'Client::formEdit');
     $routes->post('editClient', 'Client::editClient');
     $routes->post('delete', 'Client::formDelete');
     $routes->post('deleteClient', 'Client::deleteClient');

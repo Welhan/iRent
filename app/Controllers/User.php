@@ -164,6 +164,7 @@ class User extends BaseController
             $client = ($this->request->getPost('client') ? $this->request->getPost('client') : '');
             $username = ($this->request->getPost('username') ? $this->request->getPost('username') : '');
             $password = ($this->request->getPost('password') ? $this->request->getPost('password') : '');
+            $aktif = ($this->request->getPost('active') ? $this->request->getPost('active') : 0);
 
             $data = [
                 'nama' => htmlspecialchars($name, true),
@@ -172,6 +173,7 @@ class User extends BaseController
                 'clientID' => htmlspecialchars($client, true),
                 'username' => htmlspecialchars($username, true),
                 'password' => password_hash($password, PASSWORD_DEFAULT),
+                'active' => htmlspecialchars($aktif, true),
                 'userAdded' => session('userID'),
                 'dateAdded' => Time::now()
             ];

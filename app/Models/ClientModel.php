@@ -10,7 +10,7 @@ class ClientModel extends Model
     protected $primaryKey       = 'id';
     protected $returnType       = 'object';
     protected $allowedFields    = [
-        'nama', 'active', 'valid_until', 'userAdded', 'dateAdded',
+        'nama', 'kota', 'provinsi', 'active', 'valid_until', 'userAdded', 'dateAdded',
         'userUpdate', 'dateUpdated'
     ];
 }

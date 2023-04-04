@@ -1,14 +1,15 @@
 <!-- Modal -->
-<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">New User</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="user/saveUser" class="formSubmit" autocomplete="off">
+            <form action="user/updateUser" class="formSubmit" autocomplete="off">
                 <?= csrf_field(); ?>
+                <input type="hidden" name="id" value="<?= $user->id; ?>">
                 <div class="modal-body">
                     <div class="mx-auto text-center error-modal" style="width: 100%; display: none;">
                         <label id="global_message" class="text-danger pt-2 px-2"></label>
@@ -17,7 +18,7 @@
                     <div class="row mb-3">
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input type="text" class="form-control" id="name" name="name" value="<?= $user->nama; ?>">
                             <div id="errName" class="invalid-feedback"></div>
                         </div>
                     </div>
@@ -25,7 +26,7 @@
                     <div class="row mb-3">
                         <label for="phone" class="col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="phone" name="phone">
+                            <input type="text" class="form-control" id="phone" name="phone" value="<?= $user->telp; ?>">
                             <div id="errPhone" class="invalid-feedback"></div>
                         </div>
                     </div>
@@ -33,7 +34,7 @@
                     <div class="row mb-3">
                         <label for="address" class="col-sm-2 col-form-label">Address</label>
                         <div class="col-sm-10">
-                            <textarea name="address" id="address" class="form-control" cols="30" rows="3"></textarea>
+                            <textarea name="address" id="address" class="form-control" cols="30" rows="3"><?= $user->alamat; ?></textarea>
                             <div id="errAddress" class="invalid-feedback"></div>
                         </div>
                     </div>
@@ -44,7 +45,7 @@
                             <select class="form-select select2" style="width: 100%;" id="client" name="client">
                                 <option>Choose Client</option>
                                 <?php foreach ($clients as $client) : ?>
-                                    <option value="<?= $client->id; ?>"><?= ucwords($client->nama); ?></option>
+                                    <option value="<?= $client->id; ?>" <?= ($user->clientID == $client->id) ? 'selected' : ''; ?>><?= ucwords($client->nama); ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div id="errClient" class="invalid-feedback"></div>
@@ -56,31 +57,23 @@
                         <div class="col-sm-10">
                             <select class="form-select" id="level" name="level">
                                 <?php foreach ($levels as $level) : ?>
-                                    <option value="<?= $level->id; ?>"><?= ucwords($level->role); ?></option>
+                                    <option value="<?= $level->id; ?>" <?= ($user->roleID == $level->id) ? 'selected' : ''; ?>><?= ucwords($level->role); ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <div id="errClient" class="invalid-feedback"></div>
+                            <div id="errLevel" class="invalid-feedback"></div>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label for="username" class="col-sm-2 col-form-label">Username</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="username" name="username">
+                            <input type="text" class="form-control" id="username" name="username" value="<?= $user->username; ?>">
                             <div id="errUsername" class="invalid-feedback"></div>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label for="password" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="password" name="password" value="<?= $pass; ?>" readonly>
-                            <div id="errPassword" class="invalid-feedback"></div>
-                        </div>
-                    </div>
-
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="1">
+                        <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="1" <?= ($user->active) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="active">Active</label>
                     </div>
                 </div>
@@ -94,12 +87,11 @@
 </div>
 
 <script>
+    $('.select2').select2({
+        dropdownParent: $('#editModal')
+    })
+
     $(document).ready(function() {
-
-        $('.select2').select2({
-            dropdownParent: $('#newModal')
-        })
-
 
         $('.formSubmit').submit(function(e) {
             e.preventDefault();
@@ -152,6 +144,14 @@
                             $('#errAddress').html('')
                         }
 
+                        if (response.error.level) {
+                            $('#level').addClass('is-invalid');
+                            $('#errLevel').html(response.error.level)
+                        } else {
+                            $('#level').removeClass('is-invalid');
+                            $('#errLevel').html('')
+                        }
+
                         if (response.error.client) {
                             $('#client').addClass('is-invalid');
                             $('#errClient').html(response.error.client)
@@ -168,7 +168,7 @@
                             $('#errValid').html('')
                         }
                     } else {
-                        $('#newModal').modal('hide');
+                        $('#editModal').modal('hide');
                         getDataUser();
                     }
                 },

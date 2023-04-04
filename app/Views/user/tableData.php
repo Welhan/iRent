@@ -15,8 +15,8 @@
                     <td><?= ucwords($user->client); ?></td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-screwdriver-wrench"></i></button>
-                        <button type="button" class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="btn btn-info btn-sm" onclick="edit(<?= $user->id; ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user->id; ?>)"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -26,4 +26,60 @@
 
 <script>
     $('#datatablesSimple').DataTable()
+
+    function edit(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/user/edit',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('.btn').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                $('.btn').removeAttr('disabled');
+                if (response.error) {
+                    if (response.error.logout) {
+                        window.location.href = response.error.logout
+                    }
+                } else {
+                    $('#viewModal').html(response.data).show();
+                    $('#editModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        })
+    }
+
+    function deleteUser(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/user/deleteUser',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('.btn').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                $('.btn').removeAttr('disabled');
+                if (response.error) {
+                    if (response.error.logout) {
+                        window.location.href = response.error.logout
+                    }
+                } else {
+                    $('#viewModal').html(response.data).show();
+                    $('#deleteModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        })
+    }
 </script>

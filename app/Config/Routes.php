@@ -44,6 +44,10 @@ $routes->group('user', static function ($routes) {
     $routes->get('getData', 'User::userData');
     $routes->get('newUser', 'User::formNew');
     $routes->post('saveUser', 'User::saveUser');
+    $routes->post('edit', 'User::editUser');
+    $routes->post('updateUser', 'User::updateUser');
+    $routes->post('deleteUser', 'User::formDelete');
+    $routes->post('removeUser', 'User::deleteUser');
 });
 
 // Client Menu

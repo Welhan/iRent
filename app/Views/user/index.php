@@ -23,7 +23,7 @@
 
 <?= $this->section('javascript'); ?>
 <script>
-    function getData() {
+    function getDataUser() {
         $.ajax({
             url: '/user/getData',
             dataType: 'json',
@@ -47,7 +47,7 @@
     }
 
     $(document).ready(function() {
-        getData();
+        getDataUser();
 
         $('#btnNew').click(function(e) {
             e.preventDefault();

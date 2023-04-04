@@ -93,4 +93,5 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
+defined('API_KEY')      || define('API_KEY', '51cc26d4580a211b43d72f2fc99c798b');    // API Raja Ongkir
 defined('REMINDER_EXP')      || define('REMINDER_EXP', 10);    // REMINDER EXPIRED

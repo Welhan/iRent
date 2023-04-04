@@ -2,13 +2,13 @@
 
 <?= $this->section('content'); ?>
 
-<h1 class="mt-4 mb-4">Client List</h1>
+<h1 class="mt-4 mb-4">Provinsi & Kota Menu</h1>
 
 <div class="row justify-content-center">
-    <div class="col-lg-11">
+    <div class="col-lg-10">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary btn-sm" id="btnNew"><i class="fas fa-plus"></i></button>
+                <button class="btn btn-primary btn-sm" id="btnNew"><i class="fa-solid fa-arrows-rotate"></i></button>
             </div>
             <div class="card-body">
                 <div id="tableData"></div>
@@ -25,7 +25,7 @@
 <script>
     function getData() {
         $.ajax({
-            url: '/client/getData',
+            url: '/provinsi/getData',
             dataType: 'json',
             beforeSend: function() {
                 $('#tableData').hide();
@@ -53,20 +53,21 @@
             e.preventDefault();
 
             $.ajax({
-                url: '/client/newClient',
+                url: '/provinsi/refresh',
                 dataType: 'json',
                 beforeSend: function() {
                     $('.btn').attr('disabled', 'disabled');
+                    $('#btnNew').html('<i class="fa fa-spin fa-spinner"></i>');
                 },
                 success: function(response) {
                     $('.btn').removeAttr('disabled');
+                    $('#btnNew').html('<i class="fa-solid fa-arrows-rotate"></i>');
                     if (response.error) {
                         if (response.error.logout) {
                             window.location.href = response.error.logout
                         }
                     } else {
-                        $('#viewModal').html(response.data).show();
-                        $('#newModal').modal('show');
+                        getData();
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

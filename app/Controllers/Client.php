@@ -19,6 +19,7 @@ class Client extends BaseController
     public function index()
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
+        if (!check_access(session('userID'), 2)) return redirect()->to('/');
 
         // dd(date('Y-m-d', strtotime(14 . ' ' . 'days', strtotime(date('Y-m-d')))));
         // dd(check_Expired(1));

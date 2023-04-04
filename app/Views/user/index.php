@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-<h1 class="mt-4 mb-4">User Menu</h1>
+<h1 class="mt-4 mb-4">User List</h1>
 
 <div class="row justify-content-center">
     <div class="col-lg-10">

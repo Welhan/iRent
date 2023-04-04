@@ -117,3 +117,20 @@ function user_profile($user_id)
 
     return $db->table('user')->getWhere(['id' => $user_id])->getFirstRow();
 }
+
+function check_access($userID, $submenuID)
+{
+    $db = \config\Database::connect();
+
+    $builder = $db->table('user_access_menu');
+    $builder->select('*');
+    $builder->where(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_view' => 1]);
+
+    $access = $builder->get()->getResult();
+
+    if ($access) {
+        return true;
+    } else {
+        return false;
+    }
+}

@@ -57,6 +57,13 @@ $routes->group('client', static function ($routes) {
     $routes->post('delete', 'Client::formDelete');
     $routes->post('deleteClient', 'Client::deleteClient');
 });
+
+// Provinsi Menu
+$routes->group('provinsi', static function ($routes) {
+    $routes->get('', 'Provinsi::index');
+    $routes->get('getData', 'Provinsi::getData');
+    $routes->get('refresh', 'Provinsi::refreshData');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

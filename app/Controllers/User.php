@@ -24,6 +24,7 @@ class User extends BaseController
     public function index()
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
+        if (!check_access(session('userID'), 3)) return redirect()->to('/');
 
         $data = [];
         return view('user/index', $data);

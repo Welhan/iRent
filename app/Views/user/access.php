@@ -98,7 +98,7 @@
     function updateAccess(id, subID, flag) {
         $.ajax({
             method: 'post',
-            url: '<?= base_url('accessMenu'); ?>',
+            url: '/accessMenu',
             data: {
                 id,
                 subID,

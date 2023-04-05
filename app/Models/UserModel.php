@@ -55,4 +55,13 @@ class UserModel extends Model
 
         return $builder->get()->getResultObject();
     }
+
+    public function roleUser($userID)
+    {
+        $builder = $this->table($this->table);
+        $builder->select('user.*,role_group.role');
+        $builder->join('role_group', 'user.roleID = role_group.id');
+        $builder->where('user.id', $userID);
+        return $builder->get()->getResultObject();
+    }
 }

@@ -456,12 +456,14 @@ class User extends BaseController
     {
         if (!cek_login(session('userID'))) return redirect()->to('login');
 
-        $user_id = $this->request->getGet('id');
+        $user_id = $this->request->getVar('id');
+
+        // dd($this->userModel->roleUser($user_id));
 
         $data = [
             'title' => 'User',
             'active' => $this->submenuModel->find(3),
-            'user' => $this->userModel->join('role_group', 'user.roleID = role_group.id')->where(['user.id' => $user_id])->orderBy('user.id', 'DESC')->find()[0],
+            'user' => ($this->userModel->roleUser($user_id) ? $this->userModel->roleUser($user_id)[0] : []),
             'menus' => $this->menuModel->findAll()
         ];
 

@@ -160,12 +160,28 @@
                             $('#errClient').html('')
                         }
 
-                        if (response.error.valid) {
-                            $('#valid').addClass('is-invalid');
-                            $('#errValid').html(response.error.valid)
+                        if (response.error.level) {
+                            $('#level').addClass('is-invalid');
+                            $('#errLevel').html(response.error.level)
                         } else {
-                            $('#valid').removeClass('is-invalid');
-                            $('#errValid').html('')
+                            $('#level').removeClass('is-invalid');
+                            $('#errLevel').html('')
+                        }
+
+                        if (response.error.username) {
+                            $('#username').addClass('is-invalid');
+                            $('#errUsername').html(response.error.username)
+                        } else {
+                            $('#username').removeClass('is-invalid');
+                            $('#errUsername').html('')
+                        }
+
+                        if (response.error.password) {
+                            $('#password').addClass('is-invalid');
+                            $('#errPassword').html(response.error.password)
+                        } else {
+                            $('#password').removeClass('is-invalid');
+                            $('#errPassword').html('')
                         }
                     } else {
                         $('#editModal').modal('hide');

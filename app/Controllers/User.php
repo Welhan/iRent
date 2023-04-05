@@ -4,7 +4,10 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ClientModel;
+use App\Models\MenuModel;
 use App\Models\RoleModel;
+use App\Models\SubmenuModel;
+use App\Models\UserAccessModel;
 use App\Models\UserModel;
 use CodeIgniter\I18n\Time;
 use Exception;
@@ -15,19 +18,25 @@ class User extends BaseController
     protected $userModel;
     protected $clientModel;
     protected $roleModel;
+    protected $menuModel;
+    protected $submenuModel;
+    protected $userAccessModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->clientModel = new ClientModel();
         $this->roleModel = new RoleModel();
+        $this->menuModel = new MenuModel();
+        $this->submenuModel = new SubmenuModel();
+        $this->userAccessModel = new UserAccessModel();
         helper('text');
     }
 
     public function index()
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
-        if (!check_access(session('userID'), 3)) return redirect()->to('/');
+        if (!check_access(session('userID'), 3, 'view')) return redirect()->to('/');
 
         $data = [];
         return view('user/index', $data);
@@ -440,6 +449,126 @@ class User extends BaseController
             }
         } else {
             return redirect()->to('user');
+        }
+    }
+
+    public function userAccess()
+    {
+        if (!cek_login(session('userID'))) return redirect()->to('login');
+
+        $user_id = $this->request->getGet('id');
+
+        $data = [
+            'title' => 'User',
+            'active' => $this->submenuModel->find(3),
+            'user' => $this->userModel->join('role_group', 'user.roleID = role_group.id')->where(['user.id' => $user_id])->orderBy('user.id', 'DESC')->find()[0],
+            'menus' => $this->menuModel->findAll()
+        ];
+
+        return view('user/access', $data);
+    }
+
+    public function access()
+    {
+        if ($this->request->isAJAX()) {
+            $user_id = $this->request->getPost('id');
+            $subID = $this->request->getPost('subID');
+            $flag = $this->request->getPost('flag');
+            $akses = $this->userAccessModel->userAccess($user_id, $subID);
+            if ($akses) {
+
+                if ($flag == 'view') {
+                    $data = [
+                        'id' => $akses[0]->id,
+                        'flag_view' => ($akses[0]->flag_view) ? 0 : 1,
+                    ];
+                } elseif ($flag == 'add') {
+                    $data = [
+                        'id' => $akses[0]->id,
+                        'flag_add' => ($akses[0]->flag_add) ? 0 : 1,
+                    ];
+                } elseif ($flag == 'edit') {
+                    $data = [
+                        'id' => $akses[0]->id,
+                        'flag_update' => ($akses[0]->flag_update) ? 0 : 1,
+                    ];
+                } elseif ($flag == 'delete') {
+                    $data = [
+                        'id' => $akses[0]->id,
+                        'flag_delete' => ($akses[0]->flag_delete) ? 0 : 1,
+                    ];
+                } elseif ($flag == 'control') {
+                    $data = [
+                        'id' => $akses[0]->id,
+                        'flag_control' => ($akses[0]->flag_control) ? 0 : 1,
+                    ];
+                }
+
+                try {
+                    if ($this->userAccessModel->save($data)) {
+                        $alert = [
+                            'message' => 'Access Updated',
+                            'alert' => 'alert-success'
+                        ];
+                        session()->setFlashdata($alert);
+
+                        $msg = [
+                            'status' => 'Process Success'
+                        ];
+                    }
+                } catch (Exception $e) {
+                    $alert = [
+                        'message' => 'Access Error<br>' . $e->getMessage(),
+                        'alert' => 'alert-danger'
+                    ];
+
+                    $msg = [
+                        'status' => 'Process Terminated'
+                    ];
+                } finally {
+                    echo json_encode($msg);
+                }
+            } else {
+                $menu_id = $this->submenuModel->find($subID)->menu_id;
+                $data = [
+                    'user_id' => $user_id,
+                    'menu_id' => $menu_id,
+                    'submenu_id' => $subID,
+                    'flag_view' => ($flag == 'view') ? 1 : 0,
+                    'flag_add' => ($flag == 'add') ? 1 : 0,
+                    'flag_update' => ($flag == 'edit') ? 1 : 0,
+                    'flag_delete' => ($flag == 'delete') ? 1 : 0,
+                    'flag_control' => ($flag == 'control') ? 1 : 0,
+                ];
+
+                try {
+                    if ($this->userAccessModel->save($data)) {
+                        $alert = [
+                            'message' => 'Access Updated',
+                            'alert' => 'alert-success'
+                        ];
+                        session()->setFlashdata($alert);
+
+                        $msg = [
+                            'status' => 'Process Success'
+                        ];
+                    }
+                } catch (Exception $e) {
+                    $alert = [
+                        'message' => 'Access Error<br>' . $e->getMessage(),
+                        'alert' => 'alert-danger'
+                    ];
+                    session()->setFlashdata($alert);
+
+                    $msg = [
+                        'status' => 'Process Terminated'
+                    ];
+                } finally {
+                    echo json_encode($msg);
+                }
+            }
+        } else {
+            return redirect()->to(base_url('user'));
         }
     }
 }

@@ -95,7 +95,7 @@ function generateMenu($user_id)
     return $builder->get()->getResultObject();
 }
 
-function generateSubmenu($menu_id, $user_id = '')
+function generateSubmenu($menu_id, $user_id = '', $clientID = 0)
 {
     $db = \config\Database::connect();
 
@@ -106,6 +106,9 @@ function generateSubmenu($menu_id, $user_id = '')
         $builder->where(['mst_submenu.menu_id' => $menu_id, 'user_access_menu.flag_view' => 1, 'user_id' => $user_id]);
     } else {
         $builder->where('menu_id', $menu_id);
+        if ($clientID <> 0 && $clientID != 1) {
+            $builder->where('accessType', 'Client');
+        }
     }
 
     return $builder->get()->getResultObject();
@@ -118,17 +121,23 @@ function user_profile($user_id)
     return $db->table('user')->getWhere(['id' => $user_id])->getFirstRow();
 }
 
-function check_access($userID, $submenuID)
+function check_access($userID, $submenuID, $flag)
 {
     $db = \config\Database::connect();
 
-    $builder = $db->table('user_access_menu');
-    $builder->select('*');
-    $builder->where(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_view' => 1]);
+    if ($flag == 'view') {
+        $akses = $db->table('user_access_menu')->getWhere(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_view' => 1])->getFirstRow();
+    } else if ($flag == 'add') {
+        $akses = $db->table('user_access_menu')->getWhere(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_add' => 1])->getFirstRow();
+    } else if ($flag == 'edit') {
+        $akses = $db->table('user_access_menu')->getWhere(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_update' => 1])->getFirstRow();
+    } else if ($flag == 'delete') {
+        $akses = $db->table('user_access_menu')->getWhere(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_delete' => 1])->getFirstRow();
+    } else if ($flag == 'control') {
+        $akses = $db->table('user_access_menu')->getWhere(['user_id' => $userID, 'submenu_id' => $submenuID, 'flag_control' => 1])->getFirstRow();
+    }
 
-    $access = $builder->get()->getResult();
-
-    if ($access) {
+    if ($akses) {
         return true;
     } else {
         return false;

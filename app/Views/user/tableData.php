@@ -14,7 +14,7 @@
                     <td><?= ucwords($user->nama); ?></td>
                     <td><?= ucwords($user->client); ?></td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-screwdriver-wrench"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="access(<?= $user->id; ?>)"><i class="fa-solid fa-screwdriver-wrench"></i></button>
                         <button type="button" class="btn btn-info btn-sm" onclick="edit(<?= $user->id; ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button type="button" class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user->id; ?>)"><i class="fa-solid fa-trash"></i></button>
                     </td>
@@ -81,5 +81,9 @@
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         })
+    }
+
+    function access(id) {
+        window.location.href = 'access?id=' + id
     }
 </script>

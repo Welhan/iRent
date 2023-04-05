@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProvinsiModel extends Model
+class MenuModel extends Model
 {
-    protected $table            = 'provinsi';
+    protected $table            = 'mst_menu';
     protected $primaryKey       = 'id';
     protected $returnType       = 'object';
-    protected $allowedFields    = ['provinsi', 'flag'];
+    protected $allowedFields    = [];
 }

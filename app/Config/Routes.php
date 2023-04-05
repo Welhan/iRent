@@ -39,6 +39,8 @@ $routes->get('/', 'Dashboard::index');
 
 // User Menu
 // $routes->get('/user', 'User::index');
+$routes->get('/access', 'User::userAccess');
+$routes->post('/accessMenu', 'User::access');
 $routes->group('user', static function ($routes) {
     $routes->get('', 'User::index');
     $routes->get('getData', 'User::userData');

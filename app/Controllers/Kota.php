@@ -8,12 +8,10 @@ use App\Models\ProvinsiModel;
 
 class Provinsi extends BaseController
 {
-    protected $provinsiModel;
     protected $kotaModel;
 
     public function __construct()
     {
-        $this->provinsiModel = new ProvinsiModel();
         $this->kotaModel = new KotaModel();
     }
 
@@ -36,7 +34,6 @@ class Provinsi extends BaseController
             }
 
             $data = [
-                'provinsi' => $this->provinsiModel->find(),
                 'kota' => $this->kotaModel->find()
             ];
 

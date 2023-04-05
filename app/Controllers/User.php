@@ -456,7 +456,7 @@ class User extends BaseController
     {
         if (!cek_login(session('userID'))) return redirect()->to('login');
 
-        $user_id = $this->request->getVar('id');
+        $user_id = $this->request->getPost('id');
 
         // dd($this->userModel->roleUser($user_id));
 

@@ -39,7 +39,7 @@ $routes->get('/', 'Dashboard::index');
 
 // User Menu
 // $routes->get('/user', 'User::index');
-$routes->get('/access', 'User::userAccess');
+$routes->post('/access', 'User::userAccess');
 $routes->post('/accessMenu', 'User::access');
 $routes->group('user', static function ($routes) {
     $routes->get('', 'User::index');

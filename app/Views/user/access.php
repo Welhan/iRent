@@ -14,8 +14,9 @@
 
 <h1 class="mt-4 mb-4">User Access</h1>
 <div class="card mt-4">
-    <div class="card-header">
-        User <b><?= ucwords($user->nama); ?></b>
+    <div class="card-header d-flex justify-content-between">
+        <h5>User <b><?= ucwords($user->nama); ?></b></h5>
+        <button type="button" class="btn btn-danger btn-sm" onclick="backUser()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
     </div>
 
     <div class="card-body">
@@ -121,6 +122,10 @@
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         })
+    }
+
+    function backUser() {
+        window.location.href = '/user';
     }
 </script>
 <?= $this->endSection(); ?>

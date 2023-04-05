@@ -22,7 +22,7 @@ class Client extends BaseController
     public function index()
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
-        if (!check_access(session('userID'), 2)) return redirect()->to('/');
+        if (!check_access(session('userID'), 2, 'view')) return redirect()->to('/');
 
         // dd(date('Y-m-d', strtotime(14 . ' ' . 'days', strtotime(date('Y-m-d')))));
         // dd(check_Expired(1));
@@ -61,7 +61,7 @@ class Client extends BaseController
     public function newClient()
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
-        if (!check_access(session('userID'), 2)) return redirect()->to('/');
+        if (!check_access(session('userID'), 2, 'view')) return redirect()->to('/');
 
         $data = [
             'kota' => $this->kotaModel->find()
@@ -214,7 +214,7 @@ class Client extends BaseController
     public function updateClient()
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
-        if (!check_access(session('userID'), 2)) return redirect()->to('/');
+        if (!check_access(session('userID'), 2, 'view')) return redirect()->to('/');
 
         $id = $this->request->getVar('id');
 

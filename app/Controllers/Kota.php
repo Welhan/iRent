@@ -4,9 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\KotaModel;
-use App\Models\ProvinsiModel;
 
-class Provinsi extends BaseController
+class Kota extends BaseController
 {
     protected $kotaModel;
 
@@ -19,7 +18,7 @@ class Provinsi extends BaseController
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
         if (!check_access(session('userID'), 4, 'view')) return redirect()->to('/');
-        return view('provinsi/index');
+        return view('kota/index');
     }
 
     public function getData()
@@ -38,12 +37,12 @@ class Provinsi extends BaseController
             ];
 
             $msg = [
-                'data' => view('provinsi/tableData', $data)
+                'data' => view('kota/tableData', $data)
             ];
 
             echo json_encode($msg);
         } else {
-            return redirect()->to('provinsi');
+            return redirect()->to('kota');
         }
     }
 
@@ -117,7 +116,7 @@ class Provinsi extends BaseController
 
             echo json_encode($msg);
         } else {
-            return redirect()->to('provinsi');
+            return redirect()->to('kota');
         }
     }
 }

@@ -25,7 +25,7 @@
 <script>
     function getData() {
         $.ajax({
-            url: '/provinsi/getData',
+            url: '/kota/getData',
             dataType: 'json',
             beforeSend: function() {
                 $('#tableData').hide();
@@ -53,7 +53,7 @@
             e.preventDefault();
 
             $.ajax({
-                url: '/provinsi/refresh',
+                url: '/kota/refresh',
                 dataType: 'json',
                 beforeSend: function() {
                     $('.btn').attr('disabled', 'disabled');

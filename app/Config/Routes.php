@@ -67,10 +67,10 @@ $routes->group('client', static function ($routes) {
 });
 
 // Provinsi Menu
-$routes->group('provinsi', static function ($routes) {
-    $routes->get('', 'Provinsi::index');
-    $routes->get('getData', 'Provinsi::getData');
-    $routes->get('refresh', 'Provinsi::refreshData');
+$routes->group('kota', static function ($routes) {
+    $routes->get('', 'Kota::index');
+    $routes->get('getData', 'Kota::getData');
+    $routes->get('refresh', 'Kota::refreshData');
 });
 /*
  * --------------------------------------------------------------------

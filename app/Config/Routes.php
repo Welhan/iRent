@@ -72,6 +72,13 @@ $routes->group('kota', static function ($routes) {
     $routes->get('getData', 'Kota::getData');
     $routes->get('refresh', 'Kota::refreshData');
 });
+
+// Profile Menu
+$routes->group('profile', static function ($routes) {
+    $routes->get('', 'Profile::index');
+    $routes->post('edit', 'Profile::getEdit');
+    $routes->post('updateProfile', 'Profile::editProfile');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

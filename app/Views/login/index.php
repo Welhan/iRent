@@ -24,6 +24,15 @@
                                 <div class="card-header">
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
                                 </div>
+                                <?php if (session()->getFlashdata('message')) : ?>
+                                    <div class="row">
+                                        <div class="col-lg">
+                                            <div class="alert <?= session()->getFlashdata('alert'); ?> mt-3" role="alert">
+                                                <?= session()->getFlashdata('message'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="card-body">
                                     <form action="logining" method="post">
                                         <div class="form-floating mb-3">

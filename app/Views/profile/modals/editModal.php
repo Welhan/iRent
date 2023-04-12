@@ -1,84 +1,69 @@
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="user/updateUser" class="formSubmit" autocomplete="off">
+            <form action="profile/updateProfile" class="formSubmit" autocomplete="off" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
                 <input type="hidden" name="id" value="<?= $user->id; ?>">
+                <input type="hidden" name="oldPic" value="<?= $user->img; ?>">
                 <div class="modal-body">
                     <div class="mx-auto text-center error-modal" style="width: 100%; display: none;">
                         <label id="global_message" class="text-danger pt-2 px-2"></label>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="row mb-3">
+                                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" name="name" value="<?= $user->nama; ?>">
+                                    <div id="errName" class="invalid-feedback"></div>
+                                </div>
+                            </div>
 
-                    <div class="row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" name="name" value="<?= $user->nama; ?>">
-                            <div id="errName" class="invalid-feedback"></div>
-                        </div>
-                    </div>
+                            <div class="row mb-3">
+                                <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="phone" name="phone" value="<?= $user->telp; ?>">
+                                    <div id="errPhone" class="invalid-feedback"></div>
+                                </div>
+                            </div>
 
-                    <div class="row mb-3">
-                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="phone" name="phone" value="<?= $user->telp; ?>">
-                            <div id="errPhone" class="invalid-feedback"></div>
-                        </div>
-                    </div>
+                            <div class="row mb-3">
+                                <label for="address" class="col-sm-2 col-form-label">Address</label>
+                                <div class="col-sm-10">
+                                    <textarea name="address" id="address" class="form-control" cols="30" rows="3"><?= $user->alamat; ?></textarea>
+                                    <div id="errAddress" class="invalid-feedback"></div>
+                                </div>
+                            </div>
 
-                    <div class="row mb-3">
-                        <label for="address" class="col-sm-2 col-form-label">Address</label>
-                        <div class="col-sm-10">
-                            <textarea name="address" id="address" class="form-control" cols="30" rows="3"><?= $user->alamat; ?></textarea>
-                            <div id="errAddress" class="invalid-feedback"></div>
-                        </div>
-                    </div>
+                            <div class="row mb-3">
+                                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="email" name="email" value="<?= $user->email; ?>">
+                                    <div id="errEmail" class="invalid-feedback"></div>
+                                </div>
+                            </div>
 
-                    <?php if (session('clientID') == 1) : ?>
-                        <div class="row mb-3">
-                            <label for="client" class="col-sm-2 col-form-label">Client</label>
-                            <div class="col-sm-10">
-                                <select class="form-select select2" style="width: 100%;" id="client" name="client">
-                                    <option>Choose Client</option>
-                                    <?php foreach ($clients as $client) : ?>
-                                        <option value="<?= $client->id; ?>" <?= ($user->clientID == $client->id) ? 'selected' : ''; ?>><?= ucwords($client->nama); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <div id="errClient" class="invalid-feedback"></div>
+                            <div class="row mb-3">
+                                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="username" name="username" value="<?= $user->username; ?>">
+                                    <div id="errUsername" class="invalid-feedback"></div>
+                                </div>
                             </div>
                         </div>
-                    <?php else : ?>
-                        <input type="hidden" name="client" value="<?= session('clientID'); ?>">
-                    <?php endif; ?>
-
-                    <div class="row mb-3">
-                        <label for="level" class="col-sm-2 col-form-label">Level</label>
-                        <div class="col-sm-10">
-                            <select class="form-select" id="level" name="level">
-                                <?php foreach ($levels as $level) : ?>
-                                    <option value="<?= $level->id; ?>" <?= ($user->roleID == $level->id) ? 'selected' : ''; ?>><?= ucwords($level->role); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div id="errLevel" class="invalid-feedback"></div>
+                        <div class="col-lg-5">
+                            <img src="assets/img/profile/<?= ($user->img) ? $user->img : 'default.png'; ?>" class="img-thumbnail img-preview" style="max-height: 350px;">
+                            <div class="input-group mt-3">
+                                <input type="file" class="form-control" id="pic" name="pic" onchange="previewImg()">
+                                <div id="errPic" class="invalid-feedback"></div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="username" class="col-sm-2 col-form-label">Username</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="username" name="username" value="<?= $user->username; ?>">
-                            <div id="errUsername" class="invalid-feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="1" <?= ($user->active) ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="active">Active</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -103,8 +88,11 @@
             $.ajax({
                 type: 'post',
                 url: $(this).attr('action'),
-                data: $(this).serialize(),
+                data: new FormData(this),
                 dataType: 'json',
+                contentType: false,
+                processData: false,
+                // dataType: 'json',
                 beforeSend: function() {
                     $('#btnProcess').attr('disabled', 'disabled');
                     $('#btnProcess').html('<i class="fa fa-spin fa-spinner"></i>');
@@ -148,14 +136,6 @@
                             $('#errAddress').html('')
                         }
 
-                        if (response.error.level) {
-                            $('#level').addClass('is-invalid');
-                            $('#errLevel').html(response.error.level)
-                        } else {
-                            $('#level').removeClass('is-invalid');
-                            $('#errLevel').html('')
-                        }
-
                         if (response.error.client) {
                             $('#client').addClass('is-invalid');
                             $('#errClient').html(response.error.client)
@@ -180,16 +160,16 @@
                             $('#errUsername').html('')
                         }
 
-                        if (response.error.password) {
-                            $('#password').addClass('is-invalid');
-                            $('#errPassword').html(response.error.password)
+                        if (response.error.pic) {
+                            $('#pic').addClass('is-invalid');
+                            $('#errPic').html(response.error.pic)
                         } else {
-                            $('#password').removeClass('is-invalid');
-                            $('#errPassword').html('')
+                            $('#pic').removeClass('is-invalid');
+                            $('#errPic').html('')
                         }
                     } else {
-                        $('#editModal').modal('hide');
-                        getDataUser();
+                        // $('#editModal').modal('hide');
+                        window.location.reload();
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

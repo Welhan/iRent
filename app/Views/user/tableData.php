@@ -11,7 +11,7 @@
             <?php foreach ($users as $user) : ?>
                 <tr class="text-center">
                     <td><?= $no++; ?></td>
-                    <td><?= ucwords($user->nama); ?></td>
+                    <td><?php if ($user->roleID == 1) : ?><i class="fa-solid fa-wrench text-primary"></i><?php endif; ?> <?= ucwords($user->nama); ?></td>
                     <td><?= ucwords($user->client); ?></td>
                     <td>
                         <form action="access" method="post">

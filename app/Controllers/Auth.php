@@ -36,14 +36,15 @@ class Auth extends BaseController
             $profile = $this->userModel->where('username', $username)->find()[0];
             $session = [
                 'userID' => $profile->id,
-                'clientID' => $profile->clientID
+                'clientID' => $profile->clientID,
             ];
 
             session()->set($session);
             return redirect()->to('/');
         } else {
             $alert = [
-                'message' => 'Username atau Password Salah'
+                'message' => 'Username atau Password Salah',
+                'alert' => 'alert-danger'
             ];
 
             session()->setFlashdata($alert);

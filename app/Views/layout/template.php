@@ -112,6 +112,24 @@ $menus = generateMenu(session('userID'));
     <!-- <script src="assets/js/datatables-simple-demo.js"></script> -->
 
     <?= $this->renderSection('javascript'); ?>
+
+    <script>
+        function previewImg() {
+            const pic = document.querySelector('#pic');
+            // const labelPic = document.querySelector('.custom-file-label');
+            const imgPreview = document.querySelector('.img-preview')
+
+            // labelPic.textContent = pic.files[0].name;
+
+            const filePic = new FileReader();
+
+            filePic.readAsDataURL(pic.files[0])
+
+            filePic.onload = (e) => {
+                imgPreview.src = e.target.result
+            }
+        }
+    </script>
 </body>
 
 </html>

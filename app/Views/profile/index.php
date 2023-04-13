@@ -8,10 +8,18 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-end">
-                <button class="btn btn-primary btn-sm" id="btnPassword">Change Password</button>
-
+                <button class="btn btn-primary btn-sm" onclick="changePass(<?= session('userID'); ?>)">Change Password</button>
             </div>
             <div class="card-body">
+                <?php if (session()->getFlashdata('message')) : ?>
+                    <div class="row">
+                        <div class="col-lg">
+                            <div class="alert alert-success mt-3" role="alert">
+                                <?= session()->getFlashdata('message'); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="d-flex justify-content-center">
@@ -68,6 +76,9 @@
                                     </tr>
                                 </table>
                                 <button class="btn btn-primary mt-3" id="btnEdit" onclick="editProfile(<?= session('userID'); ?>)">Edit Profile</button>
+                                <?php if ($profile->img) : ?>
+                                    <button class="btn btn-warning mt-3" id="btnRemovePic" onclick="removePic(<?= session('userID'); ?>)">Remove Profile</button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -110,6 +121,62 @@
             }
         })
 
+    }
+
+    function changePass(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/profile/changePass',
+            data: {
+                id
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('.btn').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                $('.btn').removeAttr('disabled');
+                if (response.error) {
+                    if (response.error.logout) {
+                        window.location.href = response.error.logout
+                    }
+                } else {
+                    $('#viewModal').html(response.data).show();
+                    $('#changePassModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        })
+    }
+
+    function removePic(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/profile/remove',
+            data: {
+                id
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('.btn').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                $('.btn').removeAttr('disabled');
+                if (response.error) {
+                    if (response.error.logout) {
+                        window.location.href = response.error.logout
+                    }
+                } else {
+                    $('#viewModal').html(response.data).show();
+                    $('#changePassModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        })
     }
 </script>
 <?= $this->endSection(); ?>

@@ -179,8 +179,9 @@ class Profile extends BaseController
             $picName = '';
 
             if ($filePic <> '') {
-
-                unlink('assets/img/profile/' . $oldImg);
+                if ($oldData->img) {
+                    unlink('assets/img/profile/' . $oldImg);
+                }
 
                 $picName = $filePic->getRandomName();
 
@@ -233,6 +234,195 @@ class Profile extends BaseController
             } finally {
                 echo json_encode($msg);
             }
+        } else {
+            return redirect()->to('profile');
+        }
+    }
+
+    public function getPassword()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $data = [
+                'id' => $this->request->getPost('id')
+            ];
+
+            $msg = [
+                'data' => view('profile/modals/changePassModal', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('profile');
+        }
+    }
+
+    public function editPassword()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            // START VALIDATION
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'oldPass' => [
+                    'label' => 'Old Password',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} is required.',
+                    ]
+                ],
+                'newPass' => [
+                    'label' => 'New Password',
+                    'rules' => 'required|matches[confirmPass]',
+                    'errors' => [
+                        'required' => '{field} is required',
+                        'matches' => '{field} and Confirm Password not match'
+                    ]
+                ],
+                'confirmPass' => [
+                    'label' => 'Confirm Password',
+                    'rules' => 'required|matches[newPass]',
+                    'errors' => [
+                        'required' => '{field} is required',
+                        'matches' => '{field} and New Password not match'
+                    ]
+                ],
+            ]);
+
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'oldPass' => $validation->getError('oldPass'),
+                        'newPass' => $validation->getError('newPass'),
+                        'confirmPass' => $validation->getError('confirmPass')
+                    ]
+                ];
+
+                echo json_encode($msg);
+                return;
+            }
+
+            $id = $this->request->getPost('id');
+            $oldPass = (string) $this->request->getPost('oldPass');
+            $newPass = (string) $this->request->getPost('newPass');
+
+            $user = [
+                'username' => $this->userModel->find($id)->username,
+                'password' => $oldPass
+            ];
+
+            if ($this->userModel->getUserLogin($user)) {
+                $data = [
+                    'id' => $id,
+                    'password' => password_hash($newPass, PASSWORD_DEFAULT)
+                ];
+
+                try {
+                    if ($this->userModel->save($data)) {
+                        $alert = [
+                            'message' => 'Password Changed',
+                            'alert' => 'alert-success'
+                        ];
+
+                        session()->setFlashdata($alert);
+                        $msg = ['process' => 'success'];
+                    }
+                } catch (Exception $e) {
+                    $msg = [
+                        'error' => [
+                            'global' => 'Password Not Changed<br>' . $e->getMessage(),
+                        ]
+                    ];
+                } finally {
+                    echo json_encode($msg);
+                }
+            } else {
+                $msg = [
+                    'error' => [
+                        'global' => 'Invalid Password',
+                    ]
+                ];
+
+                echo json_encode($msg);
+            }
+        } else {
+            return redirect()->to('profile');
+        }
+    }
+
+    public function removePP()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $data = [
+                'id' => $this->request->getPost('id')
+            ];
+
+            $msg = [
+                'data' => view('profile/modals/removePicModal', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('profile');
+        }
+    }
+
+    public function removeProfPic()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $id = $this->request->getPost('id');
+
+            $user = $this->userModel->find($id);
+
+            unlink('assets/img/profile/' . $user->img);
+
+            $data = [
+                'id' => $id,
+                'img' => ''
+            ];
+
+            $this->userModel->save($data);
+
+            $alert = [
+                'message' => 'Profile Picture Removed',
+                'alert' => 'alert-success'
+            ];
+
+            session()->setFlashdata($alert);
+
+            $msg = ['process' => 'success'];
+
+            echo json_encode($msg);
         } else {
             return redirect()->to('profile');
         }

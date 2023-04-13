@@ -78,6 +78,10 @@ $routes->group('profile', static function ($routes) {
     $routes->get('', 'Profile::index');
     $routes->post('edit', 'Profile::getEdit');
     $routes->post('updateProfile', 'Profile::editProfile');
+    $routes->post('changePass', 'Profile::getPassword');
+    $routes->post('updatePassword', 'Profile::editPassword');
+    $routes->post('remove', 'Profile::removePP');
+    $routes->post('removePic', 'Profile::removeProfPic');
 });
 /*
  * --------------------------------------------------------------------

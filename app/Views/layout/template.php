@@ -64,9 +64,18 @@ $menus = generateMenu(session('userID'));
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    <?= ucwords(user_profile(session('userID'))->nama); ?>
+                <div class="sb-sidenav-footer d-flex justify-content-between">
+                    <div>
+                        <div class="small">Logged in as:</div>
+                        <?= ucwords(user_profile(session('userID'))->nama); ?>
+                    </div>
+                    <div>
+                        <?php if (user_profile(session('userID'))->img) : ?>
+                            <img src="assets/img/profile/<?= user_profile(session('userID'))->img; ?>" class="rounded-circle" style="height: 40px; width:40px !important">
+                        <?php else : ?>
+                            <img src="assets/img/profile/default.png" class="rounded-circle" style="height: 40px;">
+                        <?php endif; ?>
+                    </div>
                 </div>
             </nav>
         </div>

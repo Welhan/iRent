@@ -83,6 +83,13 @@ $routes->group('profile', static function ($routes) {
     $routes->post('remove', 'Profile::removePP');
     $routes->post('removePic', 'Profile::removeProfPic');
 });
+
+// Vehicle Menu
+$routes->group('vehicle', static function ($routes) {
+    $routes->get('', 'Vehicle::index');
+    $routes->get('getData', 'Vehicle::getData');
+    $routes->get('refresh', 'Vehicle::refreshData');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

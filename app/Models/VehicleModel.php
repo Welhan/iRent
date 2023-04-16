@@ -37,4 +37,18 @@ class VehicleModel extends Model
 
         return $builder->get()->getResultObject();
     }
+
+    public function duplicateVehicle($brand, $type, $year, $clientID)
+    {
+        $builder = $this->table($this->table);
+        $builder->select('*');
+        $builder->where('brand', $brand);
+        $builder->where('type', $type);
+        $builder->where('clientID', $clientID);
+        $builder->where('year', $year);
+
+        $found = $builder->get()->getResultObject();
+
+        return count($found) > 0 ? true : false;
+    }
 }

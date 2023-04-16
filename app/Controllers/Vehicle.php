@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\VehicleModel;
+use CodeIgniter\I18n\Time;
+use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 
 class Vehicle extends BaseController
 {
@@ -95,7 +98,7 @@ class Vehicle extends BaseController
 
             $valid = $this->validate([
                 'brand' => [
-                    'label' => 'Name',
+                    'label' => 'Brand',
                     'rules' => 'required',
                     'errors' => [
                         'required' => '{field} is required.',
@@ -127,11 +130,11 @@ class Vehicle extends BaseController
                 ],
                 'pic' => [
                     'label' => 'Profile Picture',
-                    'rules' => 'mime_in[pic,image/png,image/jpeg,image/jpg]|is_image[pic]|max_size[pic,2048]',
+                    'rules' => 'mime_in[pic,image/png,image/jpeg,image/jpg]|is_image[pic]|uploaded[pic]',
                     'errors' => [
-                        'max_size' => '{field} too large (max 2mb)',
                         'mime_in' => '{field} type not allowed',
                         'is_image' => '{field} type not allowed',
+                        'uploaded' => '{field} required',
                     ]
                 ]
             ]);
@@ -149,6 +152,56 @@ class Vehicle extends BaseController
 
                 echo json_encode($msg);
                 return;
+            }
+
+            $brand = (string) $this->request->getPost('brand');
+            $type = (string) $this->request->getPost('type');
+            $type = (string) $this->request->getPost('type');
+            $capacity = (int) $this->request->getPost('capacity');
+            $transmition = (string) $this->request->getPost('transmition');
+            $fuel = (string) $this->request->getPost('fuel');
+            $description = (string) $this->request->getPost('description');
+            $price = (string) $this->request->getPost('price');
+            $year = (string) $this->request->getPost('year');
+            $active = (($this->request->getPost('active')) ? $this->request->getPost('active') : 0);
+
+            if ($this->vehicleModel->duplicateVehicle($brand, $type, $year, session('clientID'))) {
+                $msg = [
+                    'error' => [
+                        'global' => 'Car Already Registered'
+                    ]
+                ];
+
+                echo json_encode($msg);
+                return;
+            }
+
+            $data = [
+                'clientID' => session('clientID'),
+                'brand' => htmlspecialchars($brand, true),
+                'type' => htmlspecialchars($type, true),
+                'transmition' => htmlspecialchars($transmition, true),
+                'fuel' => htmlspecialchars($fuel, true),
+                'capacity' => htmlspecialchars($capacity, true),
+                'year' => htmlspecialchars($year, true),
+                'description' => htmlspecialchars($description, true),
+                'active' => htmlspecialchars($active, true),
+                'userAdded' => session('userID'),
+                'dateAdded' => Time::now()
+            ];
+
+            try {
+                if ($this->vehicleModel->save($data)) {
+                    $alert = [
+                        'message' => 'Vehicle Data Saved',
+                        'alert' => 'alert-success'
+                    ];
+
+                    session()->setFlashdata($alert);
+
+                    $msg = ['success' => 'Process Done'];
+                }
+            } catch (Exception $e) {
             }
         } else {
             return redirect()->to('vehicle');

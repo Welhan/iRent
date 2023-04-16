@@ -10,8 +10,9 @@
             <div class="card-header d-flex justify-content-end">
                 <button class="btn btn-danger btn-sm" onclick="back()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
             </div>
-            <form action="" class="formSubmit" enctype="multipart/form-data">
+            <form action="vehicle/saveVehicle" class="formSubmit" enctype="multipart/form-data">
                 <div class="card-body">
+
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="row mb-3">
@@ -113,8 +114,13 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-lg">
+                        <div class="col-lg-2">
                             <button type="submit" class="btn btn-primary" id="btnProcess">Save</button>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="mx-auto text-center error-modal" style="width: 100%; display: none;">
+                                <label id="global_message" class="text-danger pt-2 px-2"></label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -199,5 +205,103 @@
         fuelVal.value = fuel;
         capacityVal.value = capacity;
     }
+
+    $(document).ready(function() {
+
+        $('.formSubmit').submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#btnProcess').attr('disabled', 'disabled');
+                    $('#btnProcess').html('<i class="fa fa-spin fa-spinner"></i>');
+                },
+                success: function(response) {
+                    if (response.error) {
+                        $('#btnProcess').removeAttr('disabled');
+                        $('#btnProcess').html('Save');
+                        if (response.error.logout) {
+                            window.location.href = response.error.logout
+                        }
+                        if (response.error.global) {
+                            $('.error-modal').show();
+                            $('#global_message').html(response.error.global)
+                        } else {
+                            $('#global_message').html('')
+                            $('.error-modal').hide();
+                        }
+
+                        if (response.error.brand) {
+                            $('#brand').addClass('is-invalid');
+                            $('#errBrand').html(response.error.brand)
+                        } else {
+                            $('#brand').removeClass('is-invalid');
+                            $('#errBrand').html('')
+                        }
+
+                        if (response.error.type) {
+                            $('#type').addClass('is-invalid');
+                            $('#errType').html(response.error.type)
+                        } else {
+                            $('#type').removeClass('is-invalid');
+                            $('#errType').html('')
+                        }
+
+                        if (response.error.address) {
+                            $('#address').addClass('is-invalid');
+                            $('#errAddress').html(response.error.address)
+                        } else {
+                            $('#address').removeClass('is-invalid');
+                            $('#errAddress').html('')
+                        }
+
+                        if (response.error.client) {
+                            $('#client').addClass('is-invalid');
+                            $('#errClient').html(response.error.client)
+                        } else {
+                            $('#client').removeClass('is-invalid');
+                            $('#errClient').html('')
+                        }
+
+                        if (response.error.level) {
+                            $('#level').addClass('is-invalid');
+                            $('#errLevel').html(response.error.level)
+                        } else {
+                            $('#level').removeClass('is-invalid');
+                            $('#errLevel').html('')
+                        }
+
+                        if (response.error.username) {
+                            $('#username').addClass('is-invalid');
+                            $('#errUsername').html(response.error.username)
+                        } else {
+                            $('#username').removeClass('is-invalid');
+                            $('#errUsername').html('')
+                        }
+
+                        if (response.error.pic) {
+                            $('#pic').addClass('is-invalid');
+                            $('#errPic').html(response.error.pic)
+                        } else {
+                            $('#pic').removeClass('is-invalid');
+                            $('#errPic').html('')
+                        }
+                    } else {
+                        // $('#editModal').modal('hide');
+                        window.location.reload();
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            })
+        })
+    })
 </script>
 <?= $this->endSection(); ?>

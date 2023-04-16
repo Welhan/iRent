@@ -1,7 +1,7 @@
  <?php if (session()->getFlashdata('message')) : ?>
      <div class="row">
          <div class="col-lg">
-             <div class="alert alert-success mt-3" role="alert">
+             <div class="alert alert-success mt-3 alertMsg" role="alert">
                  <?= session()->getFlashdata('message'); ?>
              </div>
          </div>
@@ -14,6 +14,9 @@
              <th class="text-center">#</th>
              <th class="text-center">Merek</th>
              <th class="text-center">Model</th>
+             <?php if (session('clientID') == 1) : ?>
+                 <th class="text-center">Client</th>
+             <?php endif; ?>
              <th class="text-center">Status</th>
              <th></th>
          </thead>
@@ -24,6 +27,9 @@
                      <td><?= $no++; ?></td>
                      <td><?= ucwords($v->merek); ?></td>
                      <td><?= ucwords($v->tipe); ?> (<?= $v->transmisi; ?>)</td>
+                     <?php if (session('clientID') == 1) : ?>
+                         <td class="text-center"><?= ucwords($v->client); ?></td>
+                     <?php endif; ?>
                      <td><input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" <?= ((($v->active) ? 'checked' : '')); ?> disabled>
                          <label class="btn <?= ($v->active ? 'btn-outline-success' : 'btn-outline-danger'); ?> btn-sm" for="btn-check-2-outlined"><?= (($v->active) ? 'Active' : 'Not Active'); ?></label><br>
                      </td>
@@ -37,14 +43,19 @@
  </div>
 
  <script>
-     $('.dataTable').DataTable()
+     $('.dataTable').DataTable({
+         "lengthMenu": [
+             [10, 25, 50, -1],
+             [10, 25, 50, "All"]
+         ]
+     })
 
-     $(document).ready(function() {
-         // For Allert Purpose
-         window.setTimeout(function() {
-             $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
-                 $(this).remove();
-             });
-         }, 5000);
-     });
+     //  $(document).ready(function() {
+     //      // For Allert Purpose
+     //      window.setTimeout(function() {
+     //          $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
+     //              $(this).remove();
+     //          });
+     //      }, 5000);
+     //  });
  </script>

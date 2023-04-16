@@ -2,16 +2,6 @@
 
 <?= $this->section('content'); ?>
 
-<?php if (session()->getFlashdata('message')) : ?>
-    <div class="row">
-        <div class="col-lg">
-            <div class="alert <?= session()->getFlashdata('alert'); ?> mt-3" role="alert">
-                <?= session()->getFlashdata('message'); ?>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-
 <h1 class="mt-4 mb-4">User Access</h1>
 <div class="card mt-4">
     <div class="card-header d-flex justify-content-between">
@@ -20,6 +10,16 @@
     </div>
 
     <div class="card-body">
+        <?php if (session()->getFlashdata('message')) : ?>
+            <div class="row">
+                <div class="col-lg">
+                    <div class="alert <?= session()->getFlashdata('alert'); ?> mt-3 alertMsg" role="alert">
+                        <?= session()->getFlashdata('message'); ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <table class="table">
             <thead class="text-center">
                 <th>Menu</th>
@@ -85,14 +85,14 @@
 <script>
     $('.dataTable').DataTable()
 
-    $(document).ready(function() {
-        // For Allert Purpose
-        window.setTimeout(function() {
-            $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
-                $(this).remove();
-            });
-        }, 3000);
-    });
+    // $(document).ready(function() {
+    //     // For Allert Purpose
+    //     window.setTimeout(function() {
+    //         $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
+    //             $(this).remove();
+    //         });
+    //     }, 3000);
+    // });
 </script>
 
 <script>

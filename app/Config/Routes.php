@@ -85,10 +85,11 @@ $routes->group('profile', static function ($routes) {
 });
 
 // Vehicle Menu
+$routes->get('addVehicle', 'Vehicle::formNew');
 $routes->group('vehicle', static function ($routes) {
     $routes->get('', 'Vehicle::index');
     $routes->get('getData', 'Vehicle::getData');
-    $routes->get('refresh', 'Vehicle::refreshData');
+    $routes->post('saveVehicle', 'Vehicle::newVehicle');
 });
 /*
  * --------------------------------------------------------------------

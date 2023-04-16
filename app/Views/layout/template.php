@@ -116,6 +116,7 @@ $menus = generateMenu(session('userID'));
     <script src="assets/bootstrap-5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/scripts.js"></script>
     <script src="assets/datatable/datatables.js"></script>
+    <script src="assets/autonumeric/autoNumeric.min.js"></script>
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
     <!-- <script src="assets/js/datatables-simple-demo.js"></script> -->
@@ -142,7 +143,7 @@ $menus = generateMenu(session('userID'));
         $(document).ready(function() {
             // For Allert Purpose
             window.setTimeout(function() {
-                $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
+                $(".alertMsg").fadeTo(1000, 0).slideUp(1000, function() {
                     $(this).remove();
                 });
             }, 5000);

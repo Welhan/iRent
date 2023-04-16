@@ -14,7 +14,7 @@
                 <?php if (session()->getFlashdata('message')) : ?>
                     <div class="row">
                         <div class="col-lg">
-                            <div class="alert alert-success mt-3" role="alert">
+                            <div class="alert alert-success mt-3 alert-msg" role="alert">
                                 <?= session()->getFlashdata('message'); ?>
                             </div>
                         </div>

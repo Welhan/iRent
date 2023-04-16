@@ -14,7 +14,8 @@ class VehicleModel extends Model
     public function getVehicle($id = 0)
     {
         $builder = $this->table($this->table);
-        $builder->select('*');
+        $builder->select('vehicles.*, client.nama as client');
+        $builder->join('client', 'vehicles.clientID = client.id');
         if (session('clientID') != 1) {
             $builder->where('clientID', session('clientID'));
         }
@@ -24,6 +25,15 @@ class VehicleModel extends Model
         }
 
         $builder->orderBy('id', 'desc');
+
+        return $builder->get()->getResultObject();
+    }
+
+    public function vehicleBrand()
+    {
+        $db  = \Config\Database::connect();
+        $builder = $db->table('vehicle_data');
+        $builder->select('*');
 
         return $builder->get()->getResultObject();
     }

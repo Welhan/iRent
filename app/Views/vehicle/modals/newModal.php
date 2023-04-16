@@ -1,64 +1,80 @@
 <!-- Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">New Vehicle Data</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="profile/updateProfile" class="formSubmit" autocomplete="off" enctype="multipart/form-data">
+            <form action="vehicle/saveVehicle" class="formSubmit" autocomplete="off" enctype="multipart/form-data">
                 <?= csrf_field(); ?>
-                <input type="hidden" name="id" value="<?= $user->id; ?>">
-                <input type="hidden" name="oldPic" value="<?= $user->img; ?>">
                 <div class="modal-body">
                     <div class="mx-auto text-center error-modal" style="width: 100%; display: none;">
                         <label id="global_message" class="text-danger pt-2 px-2"></label>
                     </div>
+
                     <div class="row">
-                        <div class="col-lg-7">
+                        <div class="col-lg-8">
                             <div class="row mb-3">
-                                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                <label for="brand" class="col-sm-2 col-form-label">Brand</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="name" name="name" value="<?= $user->nama; ?>">
-                                    <div id="errName" class="invalid-feedback"></div>
+                                    <select class="form-select select2" style="width: 100%;" id="brand" name="brand">
+                                        <option value="">Choose Brand</option>
+                                        <?php foreach ($vehicles as $ve) : ?>
+                                            <option value="<?= $ve->id; ?>"><?= $ve->brand; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div id="errBrand" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                                <label for="type" class="col-sm-2 col-form-label">Type</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="phone" name="phone" value="<?= $user->telp; ?>">
-                                    <div id="errPhone" class="invalid-feedback"></div>
+                                    <input type="text" class="form-control" id="type" name="type">
+                                    <div id="errType" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="address" class="col-sm-2 col-form-label">Address</label>
+                                <label for="transmition" class="col-sm-2 col-form-label">Transmition</label>
                                 <div class="col-sm-10">
-                                    <textarea name="address" id="address" class="form-control" cols="30" rows="3"><?= $user->alamat; ?></textarea>
-                                    <div id="errAddress" class="invalid-feedback"></div>
+                                    <select class="form-select" style="width: 100%;" id="transmition" name="transmition">
+                                        <option value="Automatic" selected>Automatic</option>
+                                        <option value="Manual">Manual</option>
+                                    </select>
+                                    <div id="errTransmition" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                <label for="fuel" class="col-sm-2 col-form-label">Fuel</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="email" name="email" value="<?= $user->email; ?>">
-                                    <div id="errEmail" class="invalid-feedback"></div>
+                                    <select class="form-select" id="fuel" name="fuel">
+                                        <option value="Gasoline" selected>Gasoline</option>
+                                        <option value="Diesel">Diesel</option>
+                                    </select>
+                                    <div id="errFuel" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                                <label for="description" class="col-sm-2 col-form-label">Description</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="username" name="username" value="<?= $user->username; ?>">
-                                    <div id="errUsername" class="invalid-feedback"></div>
+                                    <textarea class="form-control" id="description" name="description"></textarea>
+                                    <div id="errDescription" class="invalid-feedback"></div>
                                 </div>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="1">
+                                <label class="form-check-label" for="active">Active</label>
                             </div>
                         </div>
-                        <div class="col-lg-5">
-                            <img src="assets/img/profile/<?= ($user->img) ? $user->img : 'default.png'; ?>" class="img-thumbnail img-preview" style="max-height: 350px;">
+
+                        <div class="col-lg-4">
+                            <img src="assets/img/vehicle/default.jpg" class="img-thumbnail img-preview " style="height: 250px; width: 250px">
                             <div class="input-group mt-3">
                                 <input type="file" class="form-control" id="pic" name="pic" onchange="previewImg()">
                                 <div id="errPic" class="invalid-feedback"></div>
@@ -77,9 +93,8 @@
 
 <script>
     $('.select2').select2({
-        dropdownParent: $('#editModal')
+        dropdownParent: $('#newModal')
     })
-
     $(document).ready(function() {
 
         $('.formSubmit').submit(function(e) {
@@ -111,12 +126,12 @@
                             $('.error-modal').hide();
                         }
 
-                        if (response.error.name) {
-                            $('#name').addClass('is-invalid');
-                            $('#errName').html(response.error.name)
+                        if (response.error.brand) {
+                            $('#brand').addClass('is-invalid');
+                            $('#errBrand').html(response.error.brand)
                         } else {
-                            $('#name').removeClass('is-invalid');
-                            $('#errName').html('')
+                            $('#brand').removeClass('is-invalid');
+                            $('#errBrand').html('')
                         }
 
                         if (response.error.phone) {
@@ -159,16 +174,16 @@
                             $('#errUsername').html('')
                         }
 
-                        if (response.error.pic) {
-                            $('#pic').addClass('is-invalid');
-                            $('#errPic').html(response.error.pic)
+                        if (response.error.password) {
+                            $('#password').addClass('is-invalid');
+                            $('#errPassword').html(response.error.password)
                         } else {
-                            $('#pic').removeClass('is-invalid');
-                            $('#errPic').html('')
+                            $('#password').removeClass('is-invalid');
+                            $('#errPassword').html('')
                         }
                     } else {
-                        // $('#editModal').modal('hide');
-                        window.location.reload();
+                        $('#newModal').modal('hide');
+                        getDataVehicle();
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

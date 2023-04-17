@@ -261,7 +261,32 @@ class Vehicle extends BaseController
             ];
 
             $msg = [
-                'data' => view('vehicle/modals/listVehicle', $data)
+                'data' => view('vehicle/admin/listVehicle', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
+
+    public function getFormEdit()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+            $id = $this->request->getPost('id');
+            $data = [
+                'vehicle' => $this->vehicleModel->find($id)
+            ];
+
+            $msg = [
+                'data' => view('vehicle/modals/editModal', $data)
             ];
 
             echo json_encode($msg);

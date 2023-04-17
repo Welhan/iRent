@@ -34,7 +34,7 @@
                          <label class="btn <?= ($v->active ? 'btn-outline-success' : 'btn-outline-danger'); ?> btn-sm" for="btn-check-2-outlined"><?= (($v->active) ? 'Active' : 'Not Active'); ?></label><br>
                      </td>
                      <td>
-                         <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
+                         <button type="button" class="btn btn-primary btn-sm" onclick="updateVehicle(<?= $v->id; ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                      </td>
                  </tr>
              <?php endforeach; ?>
@@ -58,4 +58,32 @@
              });
          }, 5000);
      });
+
+     function updateVehicle(id) {
+         $.ajax({
+             type: 'POST',
+             url: '/vehicle/edit',
+             data: {
+                 id: id
+             },
+             dataType: 'json',
+             beforeSend: function() {
+                 $('.btn').attr('disabled', 'disabled');
+             },
+             success: function(response) {
+                 $('.btn').removeAttr('disabled');
+                 if (response.error) {
+                     if (response.error.logout) {
+                         window.location.href = response.error.logout
+                     }
+                 } else {
+                     $('#viewModal').html(response.data).show();
+                     $('#editModal').modal('show');
+                 }
+             },
+             error: function(xhr, ajaxOptions, thrownError) {
+                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+             }
+         })
+     }
  </script>

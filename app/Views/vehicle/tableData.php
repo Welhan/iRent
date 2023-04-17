@@ -25,8 +25,8 @@
              <?php foreach ($vehicles as $v) : ?>
                  <tr class="text-center">
                      <td><?= $no++; ?></td>
-                     <td><?= ucwords($v->merek); ?></td>
-                     <td><?= ucwords($v->tipe); ?> (<?= $v->transmisi; ?>)</td>
+                     <td><?= ucwords($v->brand); ?></td>
+                     <td><?= ucwords($v->type); ?> (<?= $v->transmition; ?>)</td>
                      <?php if (session('clientID') == 1) : ?>
                          <td class="text-center"><?= ucwords($v->client); ?></td>
                      <?php endif; ?>
@@ -50,12 +50,12 @@
          ]
      })
 
-     //  $(document).ready(function() {
-     //      // For Allert Purpose
-     //      window.setTimeout(function() {
-     //          $(".alert").fadeTo(1000, 0).slideUp(1000, function() {
-     //              $(this).remove();
-     //          });
-     //      }, 5000);
-     //  });
+     $(document).ready(function() {
+         // For Allert Purpose
+         window.setTimeout(function() {
+             $(".alertMsg").fadeTo(1000, 0).slideUp(1000, function() {
+                 $(this).remove();
+             });
+         }, 5000);
+     });
  </script>

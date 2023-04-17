@@ -9,6 +9,9 @@
         <div class="card">
             <div class="card-header">
                 <button class="btn btn-primary btn-sm" id="btnNew"><i class="fa-solid fa-plus"></i></button>
+                <?php if (session('clientID') == 1) : ?>
+                    <button class="btn btn-info btn-sm" id="btnList"><i class="fa-solid fa-list"></i></button>
+                <?php endif; ?>
             </div>
             <div class="card-body">
                 <div id="tableData"></div>

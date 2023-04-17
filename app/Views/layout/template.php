@@ -117,6 +117,7 @@ $menus = generateMenu(session('userID'));
     <script src="assets/js/scripts.js"></script>
     <script src="assets/datatable/datatables.js"></script>
     <script src="assets/autonumeric/autoNumeric.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script> -->
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
     <!-- <script src="assets/js/datatables-simple-demo.js"></script> -->

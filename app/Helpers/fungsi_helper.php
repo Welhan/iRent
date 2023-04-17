@@ -142,4 +142,10 @@ function check_access($userID, $submenuID, $flag)
     } else {
         return false;
     }
+
+    function rupiah($angka)
+    {
+        $hasil_rupiah = "Rp " . number_format($angka, 2, ',', '.');
+        return $hasil_rupiah;
+    }
 }

@@ -145,7 +145,7 @@ class Vehicle extends BaseController
                     'label' => 'Year of Car',
                     'rules' => 'required|numeric',
                     'errors' => [
-                        'required' => 'required',
+                        'required' => 'Year is required',
                         'numeric' => 'must contain number',
                     ]
                 ],
@@ -188,6 +188,7 @@ class Vehicle extends BaseController
             $price = (string) $this->request->getPost('price');
             $year = (string) $this->request->getPost('year');
             $active = (($this->request->getPost('active')) ? $this->request->getPost('active') : 0);
+            $pic = $this->request->getFile('pic');
 
             if ($this->vehicleModel->duplicateVehicle($brand, $type, $year, session('clientID'))) {
                 $msg = [
@@ -200,6 +201,10 @@ class Vehicle extends BaseController
                 return;
             }
 
+            $fileName = $pic->getRandomName();
+
+            $pic->move('assets/img/vehicle/', $fileName);
+
             $data = [
                 'clientID' => session('clientID'),
                 'brand' => htmlspecialchars($brand, true),
@@ -209,6 +214,8 @@ class Vehicle extends BaseController
                 'capacity' => htmlspecialchars($capacity, true),
                 'year' => htmlspecialchars($year, true),
                 'description' => htmlspecialchars($description, true),
+                'img' => $fileName,
+                'price' => htmlspecialchars($price, true),
                 'active' => htmlspecialchars($active, true),
                 'userAdded' => session('userID'),
                 'dateAdded' => Time::now()
@@ -226,6 +233,13 @@ class Vehicle extends BaseController
                     $msg = ['success' => 'Process Done'];
                 }
             } catch (Exception $e) {
+                $msg = [
+                    'error' => [
+                        'global' => 'Vehicle Not Saved<br>' . $e->getMessage()
+                    ]
+                ];
+            } finally {
+                echo json_encode($msg);
             }
         } else {
             return redirect()->to('vehicle');

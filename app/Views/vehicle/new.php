@@ -5,7 +5,7 @@
 <h1 class="mt-4 mb-4">New Vehicles</h1>
 
 <div class="row justify-content-center">
-    <div class="col-lg-11">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-end">
                 <button class="btn btn-danger btn-sm" onclick="back()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
@@ -14,7 +14,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-7">
                             <div class="row mb-3">
                                 <label for="brand" class="col-sm-2 col-form-label">Brand</label>
                                 <div class="col-sm-10">
@@ -40,7 +40,7 @@
                                     <div class="row mb-3">
                                         <label for="capacity" class="col-sm-5 col-form-label">Capacity</label>
                                         <div class="col-sm-7">
-                                            <input type="number" class="form-control" id="capacity" name="capacity">
+                                            <input type="number" class="form-control" id="capacity" name="capacity" min="0">
                                             <div id="errCapacity" class="invalid-feedback"></div>
                                         </div>
                                     </div>
@@ -81,7 +81,7 @@
                                     <div class="row mb-3">
                                         <label for="price" class="col-sm-3 col-form-label">Rental Price</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="price" name="price">
+                                            <input type="number" class="form-control" id="price" name="price">
                                             <div id="errPrice" class="invalid-feedback"></div>
                                         </div>
                                         <label for="price" class="col-sm-3 col-form-label">/ day</label>
@@ -91,7 +91,7 @@
                                     <div class="row mb-3">
                                         <label for="year" class="col-sm-6 col-form-label">Year of Car</label>
                                         <div class="col-sm-6">
-                                            <input type="number" class="form-control" id="year" name="year">
+                                            <input type="text" class="form-control" id="year" name="year" min="0">
                                             <div id="errYear" class="invalid-feedback"></div>
                                         </div>
                                     </div>
@@ -104,8 +104,8 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
-                            <img src="assets/img/vehicle/default.jpg" class="img-thumbnail img-preview " style="height: 320px; width: 320px">
+                        <div class="col-lg-5">
+                            <img src="assets/img/vehicle/default.jpg" class="img-thumbnail img-preview object-fit-fill" style="height: 320px;">
                             <div class="input-group mt-3">
                                 <input type="file" class="form-control" id="pic" name="pic" onchange="previewImg()">
                                 <div id="errPic" class="invalid-feedback"></div>
@@ -172,6 +172,17 @@
     </div>
 </div>
 
+<!-- <script>
+    $(document).ready(function() {
+        new AutoNumeric('#price', {
+            unformatOnSubmit: true,
+            minimumValue: "0",
+            // decimalCharacter: ",",
+            // digitGroupSeparator: "."
+        });
+    })
+</script> -->
+
 <?= $this->endSection(); ?>
 
 <?= $this->section('javascript'); ?>
@@ -183,14 +194,6 @@
     function back() {
         window.location.href = '/vehicle';
     }
-
-    new AutoNumeric('#price', {
-        unformatOnSubmit: true,
-        minimumValue: "0",
-        decimalPlaces: "0"
-        // decimalCharacter: ",",
-        // digitGroupSeparator: "."
-    });
 
     function inputCar(brand, type, transmition, fuel, capacity) {
         let brandVal = document.querySelector('#brand');
@@ -302,7 +305,7 @@
                         }
                     } else {
                         // $('#editModal').modal('hide');
-                        window.location.reload();
+                        window.location.href = 'vehicle';
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

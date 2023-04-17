@@ -9,7 +9,7 @@ class VehicleModel extends Model
     protected $table            = 'vehicles';
     protected $primaryKey       = 'id';
     protected $returnType       = 'object';
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['clientID', 'brand', 'type', 'transmition', 'fuel', 'capacity', 'year', 'description', 'price', 'img', 'active', 'userAdded', 'dateAdded', 'userUpdated', 'dateUpdated'];
 
     public function getVehicle($id = 0)
     {

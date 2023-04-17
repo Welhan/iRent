@@ -104,32 +104,53 @@ class Vehicle extends BaseController
                         'required' => '{field} is required.',
                     ]
                 ],
-                'phone' => [
-                    'label' => 'Phone',
-                    'rules' => 'required|numeric',
-                    'errors' => [
-                        'numeric' => '{field} must contain number',
-                        'required' => '{field} is required'
-                    ]
-                ],
-                'address' => [
-                    'label' => 'Address',
+                'type' => [
+                    'label' => 'Type',
                     'rules' => 'required',
                     'errors' => [
                         'required' => '{field} is required'
                     ]
                 ],
-
-                'username' => [
-                    'label' => 'Username',
-                    'rules' => '',
+                'capacity' => [
+                    'label' => 'Capacity',
+                    'rules' => 'required|numeric',
                     'errors' => [
                         'required' => '{field} is required',
-                        'is_unique' => '{field} already used'
+                        'numeric' => '{field} must contain number',
+                    ]
+                ],
+                'fuel' => [
+                    'label' => 'Fuel',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} is required',
+                    ]
+                ],
+                'transmition' => [
+                    'label' => 'Transmition',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} is required',
+                    ]
+                ],
+                'price' => [
+                    'label' => 'Rental Price',
+                    'rules' => 'required|numeric',
+                    'errors' => [
+                        'required' => '{field} is required',
+                        'numeric' => '{field} must contain number',
+                    ]
+                ],
+                'year' => [
+                    'label' => 'Year of Car',
+                    'rules' => 'required|numeric',
+                    'errors' => [
+                        'required' => 'required',
+                        'numeric' => 'must contain number',
                     ]
                 ],
                 'pic' => [
-                    'label' => 'Profile Picture',
+                    'label' => 'Picture',
                     'rules' => 'mime_in[pic,image/png,image/jpeg,image/jpg]|is_image[pic]|uploaded[pic]',
                     'errors' => [
                         'mime_in' => '{field} type not allowed',
@@ -142,10 +163,13 @@ class Vehicle extends BaseController
             if (!$valid) {
                 $msg = [
                     'error' => [
-                        'name' => $validation->getError('name'),
-                        'phone' => $validation->getError('phone'),
-                        'address' => $validation->getError('address'),
-                        'username' => $validation->getError('username'),
+                        'brand' => $validation->getError('brand'),
+                        'type' => $validation->getError('type'),
+                        'capacity' => $validation->getError('capacity'),
+                        'transmition' => $validation->getError('transmition'),
+                        'fuel' => $validation->getError('fuel'),
+                        'price' => $validation->getError('price'),
+                        'year' => $validation->getError('year'),
                         'pic' => $validation->getError('pic'),
                     ]
                 ];

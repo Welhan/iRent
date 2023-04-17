@@ -5,7 +5,7 @@
 <h1 class="mt-4 mb-4">New Vehicles</h1>
 
 <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-11">
         <div class="card">
             <div class="card-header d-flex justify-content-end">
                 <button class="btn btn-danger btn-sm" onclick="back()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
@@ -21,8 +21,8 @@
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" id="brand" name="brand" readonly>
                                         <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#vehicleModal"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        <div id="errBrand" class="invalid-feedback"></div>
                                     </div>
-                                    <div id="errBrand" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
@@ -253,36 +253,44 @@
                             $('#errType').html('')
                         }
 
-                        if (response.error.address) {
-                            $('#address').addClass('is-invalid');
-                            $('#errAddress').html(response.error.address)
+                        if (response.error.capacity) {
+                            $('#capacity').addClass('is-invalid');
+                            $('#errCapacity').html(response.error.capacity)
                         } else {
-                            $('#address').removeClass('is-invalid');
-                            $('#errAddress').html('')
+                            $('#capacity').removeClass('is-invalid');
+                            $('#errCapacity').html('')
                         }
 
-                        if (response.error.client) {
-                            $('#client').addClass('is-invalid');
-                            $('#errClient').html(response.error.client)
+                        if (response.error.transmition) {
+                            $('#transmition').addClass('is-invalid');
+                            $('#errTransmition').html(response.error.transmition)
                         } else {
-                            $('#client').removeClass('is-invalid');
-                            $('#errClient').html('')
+                            $('#transmition').removeClass('is-invalid');
+                            $('#errTransmition').html('')
                         }
 
-                        if (response.error.level) {
-                            $('#level').addClass('is-invalid');
-                            $('#errLevel').html(response.error.level)
+                        if (response.error.fuel) {
+                            $('#fuel').addClass('is-invalid');
+                            $('#errFuel').html(response.error.fuel)
                         } else {
-                            $('#level').removeClass('is-invalid');
-                            $('#errLevel').html('')
+                            $('#fuel').removeClass('is-invalid');
+                            $('#errFuel').html('')
                         }
 
-                        if (response.error.username) {
-                            $('#username').addClass('is-invalid');
-                            $('#errUsername').html(response.error.username)
+                        if (response.error.price) {
+                            $('#price').addClass('is-invalid');
+                            $('#errPrice').html(response.error.price)
                         } else {
-                            $('#username').removeClass('is-invalid');
-                            $('#errUsername').html('')
+                            $('#price').removeClass('is-invalid');
+                            $('#errPrice').html('')
+                        }
+
+                        if (response.error.year) {
+                            $('#year').addClass('is-invalid');
+                            $('#errYear').html(response.error.year)
+                        } else {
+                            $('#year').removeClass('is-invalid');
+                            $('#errYear').html('')
                         }
 
                         if (response.error.pic) {

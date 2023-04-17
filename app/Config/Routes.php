@@ -90,6 +90,7 @@ $routes->group('vehicle', static function ($routes) {
     $routes->get('', 'Vehicle::index');
     $routes->get('getData', 'Vehicle::getData');
     $routes->post('saveVehicle', 'Vehicle::newVehicle');
+    $routes->get('listVehicle', 'Vehicle::getListVechicle');
 });
 /*
  * --------------------------------------------------------------------

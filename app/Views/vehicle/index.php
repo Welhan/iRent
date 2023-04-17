@@ -81,6 +81,32 @@
 
             window.location.href = 'addVehicle';
         })
+
+        $('#btnList').click(function() {
+            $.ajax({
+                url: '/vehicle/listVehicle',
+                dataType: 'json',
+                beforeSend: function() {
+                    $('.btn').attr('disabled', 'disabled');
+                    $('#btnList').html('<i class="fa fa-spin fa-spinner"></i>');
+                },
+                success: function(response) {
+                    $('.btn').removeAttr('disabled');
+                    $('#btnList').html('<i class="fa-solid fa-list"></i>');
+                    if (response.error) {
+                        if (response.error.logout) {
+                            window.location.href = response.error.logout
+                        }
+                    } else {
+                        $('#viewModal').html(response.data).show();
+                        $('#listModal').modal('show');
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        })
     })
 </script>
 <?= $this->endSection(); ?>

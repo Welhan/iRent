@@ -245,4 +245,28 @@ class Vehicle extends BaseController
             return redirect()->to('vehicle');
         }
     }
+
+    public function getListVechicle()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+            $data = [
+                'vehicles' => $this->vehicleModel->vehicleBrand()
+            ];
+
+            $msg = [
+                'data' => view('vehicle/modals/listVehicle', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
 }

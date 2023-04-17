@@ -18,7 +18,7 @@
                             <th class="text-center">Capacity</th>
                         </thead>
                         <tbody>
-                            <?php $no = 1;; ?>
+                            <?php $no = 1; ?>
                             <?php foreach ($vehicles as $ve) : ?>
                                 <tr class="text-center">
                                     <td><?= $no++; ?></td>

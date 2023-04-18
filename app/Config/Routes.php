@@ -92,6 +92,7 @@ $routes->group('vehicle', static function ($routes) {
     $routes->post('saveVehicle', 'Vehicle::newVehicle');
     $routes->get('listVehicle', 'Vehicle::getListVechicle');
     $routes->post('edit', 'Vehicle::getFormEdit');
+    $routes->post('editVehicle', 'Vehicle::updateVehicle');
 });
 /*
  * --------------------------------------------------------------------

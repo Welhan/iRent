@@ -15,13 +15,20 @@
                     </div>
 
                     <input type="hidden" name="id" value="<?= $vehicle->id; ?>">
+                    <input type="hidden" name="oldPic" value="<?= $vehicle->img; ?>">
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="row mb-3">
                                 <label for="brand" class="col-sm-2 col-form-label">Brand</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-4">
                                     <input type="text" class="form-control" id="type" name="type" value="<?= $vehicle->brand; ?>" readonly>
                                     <div id="errBrand" class="invalid-feedback"></div>
+                                </div>
+
+                                <label for="fuel" class="col-sm-2 col-form-label">Fuel</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="fuel" name="fuel" value="<?= $vehicle->fuel; ?>" readonly>
+                                    <div id="errFuel" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
@@ -38,14 +45,6 @@
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="transmition" name="transmition" value="<?= $vehicle->transmition; ?>" readonly>
                                     <div id="errTransmition" class="invalid-feedback"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="fuel" class="col-sm-2 col-form-label">Fuel</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="fuel" name="fuel" value="<?= $vehicle->fuel; ?>" readonly>
-                                    <div id="errFuel" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
@@ -94,6 +93,11 @@
                             </div>
                         </div>
                     </div>
+                    <?php if ($vehicle->userUpdated) : ?>
+                        <div class="row mt-3">
+                            <label class="col-sm-12 col-form-label">Updated By: <?= user_profile($vehicle->userUpdated)->nama; ?> (<?= date('d-M-Y', strtotime($vehicle->dateUpdated)); ?>)</label>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -195,7 +199,7 @@
                             $('#errPassword').html('')
                         }
                     } else {
-                        $('#newModal').modal('hide');
+                        $('#editModal').modal('hide');
                         getDataVehicle();
                     }
                 },

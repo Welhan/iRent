@@ -3,18 +3,23 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ClientModel;
 use App\Models\VehicleModel;
 use CodeIgniter\I18n\Time;
 use Exception;
 use PhpParser\Node\Stmt\TryCatch;
 
+use function PHPUnit\Framework\fileExists;
+
 class Vehicle extends BaseController
 {
     protected $vehicleModel;
+    protected $clientModel;
 
     public function __construct()
     {
         $this->vehicleModel = new VehicleModel();
+        $this->clientModel = new ClientModel();
     }
     public function index()
     {
@@ -202,7 +207,15 @@ class Vehicle extends BaseController
 
             $fileName = $pic->getRandomName();
 
-            $pic->move('assets/img/vehicle/', $fileName);
+            $clientName = $this->clientModel->find(session('clientID'))->nama;
+
+            $path = "assets/img/vehicle/" . $clientName . "/" . $brand . "/" . $type . "/";
+
+            if (!fileExists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $pic->move($path, $fileName);
 
             $data = [
                 'clientID' => session('clientID'),
@@ -280,8 +293,10 @@ class Vehicle extends BaseController
                 return;
             }
             $id = $this->request->getPost('id');
+
             $data = [
-                'vehicle' => $this->vehicleModel->find($id)
+                'vehicle' => $this->vehicleModel->find($id),
+                'client' => $this->clientModel->find(session('clientID'))->nama
             ];
 
             $msg = [
@@ -306,6 +321,8 @@ class Vehicle extends BaseController
             }
 
             $id = $this->request->getPost('id');
+            $brand = (string) $this->request->getPost('brand');
+            $type = (string) $this->request->getPost('type');
             $capacity = (int) $this->request->getPost('capacity');
             $description = (string) $this->request->getPost('description');
             $price = (string) $this->request->getPost('price');
@@ -402,9 +419,18 @@ class Vehicle extends BaseController
             if ($pic <> '') {
                 $filename = $pic->getRandomName();
 
-                unlink('assets/img/vehicle/' . $oldPic);
+                $clientName = $this->clientModel->find(session('clientID'))->nama;
 
-                $pic->move('assets/img/vehicle/', $filename);
+                $path = "assets/img/vehicle/" . $clientName . "/" . $brand . "/" . $type . "/";
+                $unlinkPath = "assets/img/vehicle/" . $clientName . "/" . $brand . "/" . $type . "/" . $oldPic;
+
+                if (!fileExists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                unlink($unlinkPath);
+
+                $pic->move($path, $filename);
             } else {
                 $filename = $oldPic;
             }
@@ -413,6 +439,9 @@ class Vehicle extends BaseController
                 'id' => $id,
                 'capacity' => $capacity,
                 'price' => $price,
+                'description' => htmlspecialchars($description, true),
+                'year' => htmlspecialchars($year, true),
+                'active' => htmlspecialchars($active, true),
                 'img' => $filename,
                 'userUpdated' => session('userID'),
                 'dateUpdated' => Time::now()
@@ -437,6 +466,21 @@ class Vehicle extends BaseController
                 ];
             } finally {
                 echo json_encode($msg);
+            }
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
+
+    public function formDelete()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
             }
         } else {
             return redirect()->to('vehicle');

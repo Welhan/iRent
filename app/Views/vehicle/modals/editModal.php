@@ -21,7 +21,7 @@
                             <div class="row mb-3">
                                 <label for="brand" class="col-sm-2 col-form-label">Brand</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="type" name="type" value="<?= $vehicle->brand; ?>" readonly>
+                                    <input type="text" class="form-control" id="brand" name="brand" value="<?= $vehicle->brand; ?>" readonly>
                                     <div id="errBrand" class="invalid-feedback"></div>
                                 </div>
 
@@ -57,7 +57,7 @@
 
                                 <label for="price" class="col-sm-2 col-form-label">Rental Price</label>
                                 <div class="col-sm-3">
-                                    <input type="number" class="form-control" id="price" name="price" value="<?= $vehicle->price; ?>">
+                                    <input type="text" class="form-control" id="price" name="price" value="<?= $vehicle->price; ?>">
                                     <div id="errPrice" class="invalid-feedback"></div>
                                 </div>
                                 <label for="price" class="col-sm-2 col-form-label">/ day</label>
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="col-lg-4">
-                            <img src="assets/img/vehicle/<?= $vehicle->img; ?>" class="img-thumbnail img-preview " style="height: 320;">
+                            <img src="assets/img/vehicle/<?= $client; ?>/<?= $vehicle->brand; ?>/<?= $vehicle->type; ?>/<?= $vehicle->img; ?>" class="img-thumbnail img-preview " style="height: 320;">
                             <div class="input-group mt-3">
                                 <input type="file" class="form-control" id="pic" name="pic" onchange="previewImg()">
                                 <div id="errPic" class="invalid-feedback"></div>
@@ -107,6 +107,18 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        new AutoNumeric('#price', {
+            unformatOnSubmit: true,
+            minimumValue: "0",
+            decimalPlaces: "0"
+            // decimalCharacter: ".",
+            // digitGroupSeparator: "."
+        });
+    })
+</script>
 
 <script>
     $('.select2').select2({

@@ -10,7 +10,7 @@
             <div class="card-header d-flex justify-content-end">
                 <button class="btn btn-danger btn-sm" onclick="back()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
             </div>
-            <form action="vehicle/saveVehicle" class="formSubmit" enctype="multipart/form-data">
+            <form action="vehicle/saveVehicle" class="formSubmit" enctype="multipart/form-data" autocomplete="off">
                 <div class="card-body">
 
                     <div class="row">
@@ -81,7 +81,7 @@
                                     <div class="row mb-3">
                                         <label for="price" class="col-sm-3 col-form-label">Rental Price</label>
                                         <div class="col-sm-6">
-                                            <input type="number" class="form-control" id="price" name="price">
+                                            <input type="text" class="form-control" id="price" name="price">
                                             <div id="errPrice" class="invalid-feedback"></div>
                                         </div>
                                         <label for="price" class="col-sm-3 col-form-label">/ day</label>
@@ -172,20 +172,20 @@
     </div>
 </div>
 
-<!-- <script>
+<?= $this->endSection(); ?>
+
+<?= $this->section('javascript'); ?>
+<script>
     $(document).ready(function() {
         new AutoNumeric('#price', {
             unformatOnSubmit: true,
             minimumValue: "0",
-            // decimalCharacter: ",",
+            decimalPlaces: "0"
+            // decimalCharacter: ".",
             // digitGroupSeparator: "."
         });
     })
-</script> -->
-
-<?= $this->endSection(); ?>
-
-<?= $this->section('javascript'); ?>
+</script>
 <script>
     $('.dataTable').DataTable({
         ordering: false
@@ -208,6 +208,8 @@
         fuelVal.value = fuel;
         capacityVal.value = capacity;
     }
+
+
 
     $(document).ready(function() {
 

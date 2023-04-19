@@ -482,6 +482,68 @@ class Vehicle extends BaseController
                 echo json_encode($msg);
                 return;
             }
+
+            $id = $this->request->getPost('id');
+
+            $data = [
+                'vehicle' => $this->vehicleModel->find($id)
+            ];
+
+            $msg = [
+                'data' => view('vehicle/modals/deleteModal', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
+
+    public function deleteVehicle()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $id = $this->request->getPost('id');
+
+            $vehicle = $this->vehicleModel->find($id);
+            $client = $this->clientModel->find(session('clientID'))->nama;
+
+            $path = "assets/img/vehicle/" . $client . "/" . $vehicle->brand . "/" . $vehicle->type;
+
+            $delData = scandir("assets/img/vehicle/" . $client . "/" . $vehicle->brand . "/" . $vehicle->type);
+
+            for ($i = 2; $i < count($delData); $i++) {
+                $unlinkData = $path . "/" . $delData[$i];
+                unlink($unlinkData);
+            }
+
+            rmdir("assets/img/vehicle/" . $client . "/" . $vehicle->brand . "/" . $vehicle->type);
+
+            try {
+                if ($this->vehicleModel->delete($id)) {
+                    $alert = [
+                        'message' => "Vehicle Deleted",
+                        'alert' => 'alert-success'
+                    ];
+                    $msg = ['process' => 'success'];
+                    session()->setFlashdata($alert);
+                }
+            } catch (Exception $e) {
+                $msg = [
+                    'error' => [
+                        'global' => 'Vehicle Not Deleted<br>' . $e->getMessage()
+                    ]
+                ];
+            } finally {
+                echo json_encode($msg);
+            }
         } else {
             return redirect()->to('vehicle');
         }

@@ -63,7 +63,7 @@
      function updateVehicle(id) {
          $.ajax({
              type: 'POST',
-             url: '/vehicle/edit',
+             url: '/vehicle/getEdit',
              data: {
                  id: id
              },
@@ -91,7 +91,7 @@
      function deleteVehicle(id) {
          $.ajax({
              type: 'POST',
-             url: '/vehicle/delete',
+             url: '/vehicle/getDelete',
              data: {
                  id: id
              },

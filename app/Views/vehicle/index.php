@@ -10,10 +10,17 @@
             <div class="card-header">
                 <button class="btn btn-primary btn-sm" id="btnNew"><i class="fa-solid fa-plus"></i></button>
                 <button class="btn btn-info btn-sm" id="btnList"><i class="fa-solid fa-list"></i></button>
-                <?php if (session('clientID') == 1) : ?>
-                <?php endif; ?>
             </div>
             <div class="card-body">
+                <?php if (session()->getFlashdata('message')) : ?>
+                    <div class="row">
+                        <div class="col-lg">
+                            <div class="alert alert-success mt-3 alertMsg" role="alert">
+                                <?= session()->getFlashdata('message'); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <div id="tableData"></div>
             </div>
         </div>

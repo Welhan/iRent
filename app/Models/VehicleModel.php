@@ -51,4 +51,41 @@ class VehicleModel extends Model
 
         return count($found) > 0 ? true : false;
     }
+
+    public function addImg($data)
+    {
+        $db  = \Config\Database::connect();
+        $builder = $db->table('vehicle_img');
+        if ($builder->insert($data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getDetailImg($clientID = '', $brand = '', $type = '', $id = '')
+    {
+        $db  = \Config\Database::connect();
+        $builder = $db->table('vehicle_img');
+        if ($id) {
+            $builder->where('id', $id);
+        } else {
+            $builder->where('clientID', $clientID);
+            $builder->where('brand', $brand);
+            $builder->where('type', $type);
+        }
+
+        return $builder->get()->getResultObject();
+    }
+
+    public function deleteImg($id)
+    {
+        $db  = \Config\Database::connect();
+        $builder = $db->table('vehicle_img');
+        if ($builder->delete(['id' => $id])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

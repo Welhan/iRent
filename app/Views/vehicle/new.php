@@ -11,6 +11,7 @@
                 <button class="btn btn-danger btn-sm" onclick="back()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
             </div>
             <form action="vehicle/saveVehicle" class="formSubmit" enctype="multipart/form-data" autocomplete="off">
+                <?= csrf_field(); ?>
                 <div class="card-body">
 
                     <div class="row">

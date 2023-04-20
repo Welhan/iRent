@@ -95,6 +95,9 @@ $routes->group('vehicle', static function ($routes) {
     $routes->post('editVehicle', 'Vehicle::updateVehicle');
     $routes->post('getDelete', 'Vehicle::formDelete');
     $routes->post('delete', 'Vehicle::deleteVehicle');
+    $routes->post('addImg', 'Vehicle::formAddImg');
+    $routes->post('saveImg', 'Vehicle::addImg');
+    $routes->post('deleteImg', 'Vehicle::delImg');
 });
 /*
  * --------------------------------------------------------------------

@@ -548,4 +548,159 @@ class Vehicle extends BaseController
             return redirect()->to('vehicle');
         }
     }
+
+    public function formAddImg()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $id = $this->request->getPost('id');
+            $vehicle = $this->vehicleModel->find($id);
+            $client = $this->clientModel->find(session('clientID'))->nama;
+
+            $data = [
+                'vehicle' => $vehicle,
+                'client' => $client,
+                'detailImg' => $this->vehicleModel->getDetailImg(session('clientID'), $vehicle->brand, $vehicle->type)
+            ];
+
+            $msg = [
+                'data' => view('vehicle/addImage', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
+
+    public function addImg()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            // START VALIDATION
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'pic' => [
+                    'label' => 'Picture',
+                    'rules' => 'mime_in[pic,image/png,image/jpeg,image/jpg]|is_image[pic]|uploaded[pic]',
+                    'errors' => [
+                        'mime_in' => '{field} type not allowed',
+                        'is_image' => '{field} type not allowed',
+                        'uploaded' => '{field} required',
+                    ]
+                ]
+            ]);
+
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'pic' => $validation->getError('pic'),
+                    ]
+                ];
+
+                echo json_encode($msg);
+                return;
+            }
+
+            $id = $this->request->getPost('id');
+            $vehicle = $this->vehicleModel->find($id);
+            $client = $this->clientModel->find(session('clientID'))->nama;
+            $pic = $this->request->getFile('pic');
+
+            $filename = $pic->getRandomName();
+
+            $path = "assets/img/vehicle/" . $client . "/" . $vehicle->brand . "/" . $vehicle->type . "/";
+
+            $pic->move($path, $filename);
+
+            $data = [
+                'clientID' => session('clientID'),
+                'brand' => $vehicle->brand,
+                'type' => $vehicle->type,
+                'img' => $filename,
+                'userAdded' => session('userID'),
+                'dateAdded' => Time::now()
+            ];
+
+            try {
+                if ($this->vehicleModel->addImg($data)) {
+                    $alert = [
+                        'message' => ucwords($vehicle->brand) . "-" . ucwords($vehicle->type) . " Added New Detail Images",
+                        'alert' => 'alert-success'
+                    ];
+                    $msg = ['process' => 'success'];
+                    session()->setFlashdata($alert);
+                }
+            } catch (Exception $e) {
+                $msg = [
+                    'error' => [
+                        'global' => ucwords($vehicle->type) . ' Images Not Saved<br>' . $e->getMessage()
+                    ]
+                ];
+            } finally {
+                echo json_encode($msg);
+            }
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
+
+    public function delImg()
+    {
+        if ($this->request->isAJAX()) {
+            if (!cek_login(session('userID'))) {
+                $msg = [
+                    'error' => ['logout' => base_url('logout')]
+                ];
+                echo json_encode($msg);
+                return;
+            }
+
+            $id = $this->request->getPost('id');
+            $client =  (string)$this->request->getPost('client');
+            $brand =  (string)$this->request->getPost('brand');
+            $type = (string) $this->request->getPost('type');
+            $img = (string) $this->request->getPost('img');
+
+            $path = "assets/img/vehicle/" . $client . "/" . $brand . "/" . $type . "/" . $img;
+
+            unlink($path);
+
+            try {
+                if ($this->vehicleModel->deleteImg($id)) {
+                    $alert = [
+                        'message' => 'Detail Image ' . ucwords($type) . " Deleted",
+                        'alert' => 'alert-success'
+                    ];
+
+                    $msg = ['process' => 'success'];
+                    session()->setFlashdata($alert);
+                }
+            } catch (Exception $e) {
+                $msg = [
+                    'error' => [
+                        'global' => 'Deatil Image ' . ucwords($type) . 'Not Deleted<br>' . $e->getMessage()
+                    ]
+                ];
+            } finally {
+                echo json_encode($msg);
+            }
+        } else {
+            return redirect()->to('vehicle');
+        }
+    }
 }

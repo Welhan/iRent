@@ -35,6 +35,7 @@
                      </td>
                      <td>
                          <button type="button" class="btn btn-primary btn-sm" onclick="updateVehicle(<?= $v->id; ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                         <button type="button" class="btn btn-secondary btn-sm" onclick="addImg(<?= $v->id; ?>)"><i class="fa-regular fa-images"></i></button>
                          <button type="button" class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $v->id; ?>)"><i class="fa-solid fa-trash"></i></button>
                      </td>
                  </tr>
@@ -114,5 +115,32 @@
                  alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
              }
          })
+     }
+
+     function addImg(id) {
+         $.ajax({
+             type: "post",
+             url: '/vehicle/addImg',
+             data: {
+                 id
+             },
+             dataType: 'json',
+             beforeSend: function() {
+                 $('#tableData').hide();
+             },
+             success: function(response) {
+                 if (response.error) {
+                     if (response.error.logout) {
+                         window.location.href = response.error.logout
+                     }
+                 } else {
+                     $('#tableData').show();
+                     $('#tableData').html(response.data);
+                 }
+             },
+             error: function(xhr, ajaxOptions, thrownError) {
+                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+             }
+         });
      }
  </script>

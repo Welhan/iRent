@@ -18,6 +18,7 @@ class Kota extends BaseController
     {
         if (!cek_login(session('userID'))) return redirect()->to('/login');
         if (!check_access(session('userID'), 4, 'view')) return redirect()->to('/');
+
         return view('kota/index');
     }
 

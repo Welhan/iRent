@@ -99,6 +99,11 @@ $routes->group('vehicle', static function ($routes) {
     $routes->post('saveImg', 'Vehicle::addImg');
     $routes->post('deleteImg', 'Vehicle::delImg');
 });
+
+// Company Profile Menu
+$routes->group('company', static function ($routes) {
+    $routes->get('', 'CompanyProfile::index');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

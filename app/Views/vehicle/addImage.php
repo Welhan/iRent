@@ -5,14 +5,14 @@
                 <h5>Detail Images <?= ucwords($vehicle->brand); ?> - <?= ucwords($vehicle->type); ?></h5>
                 <button class="btn btn-danger btn-sm" onclick="back()"><i class="fa-sharp fa-solid fa-rectangle-xmark"></i></button>
             </div>
-            <form action="vehicle/saveImg" class="formSubmit" enctype="multipart/form-data" autocomplete="off">
-                <?= csrf_field(); ?>
-                <div class="card-body">
+            <div class="card-body">
 
-                    <div class="mx-auto text-center error-modal" style="width: 100%; display: none;">
-                        <label id="global_message" class="text-danger pt-2 px-2"></label>
-                    </div>
+                <div class="mx-auto text-center error-modal" style="width: 100%; display: none;">
+                    <label id="global_message" class="text-danger pt-2 px-2"></label>
+                </div>
 
+                <form action="vehicle/saveImg" class="formSubmit" enctype="multipart/form-data" autocomplete="off">
+                    <?= csrf_field(); ?>
                     <input type="hidden" name="id" value="<?= $vehicle->id; ?>">
                     <div class="row">
                         <div class="col-lg-6">
@@ -35,24 +35,25 @@
                             <img src="assets/img/vehicle/default.jpg" class="img-thumbnail img-preview object-fit-fill" style="height: 320px;">
                         </div>
                     </div>
-                    <?php if ($detailImg) : ?>
-                        <hr>
-                        <div class="row justify-content-center">
-                            <?php foreach ($detailImg as $detail) : ?>
-                                <div class="col-lg-4">
-                                    <div class="card" style="width: 18rem;">
-                                        <img src="assets/img/vehicle/<?= $client; ?>/<?= $vehicle->brand; ?>/<?= $vehicle->type; ?>/<?= $detail->img; ?>" class="card-img-top mt-2">
-                                        <div class="card-body">
-                                            <h6>Added By: <?= user_profile($detail->userAdded)->nama; ?></h6>
-                                            <button type="button" class="btn btn-danger" onclick="deleteImg(<?= $detail->id; ?>,'<?= $client; ?>','<?= $vehicle->brand; ?>','<?= $vehicle->type; ?>','<?= $detail->img; ?>')">Delete</button>
-                                        </div>
+                </form>
+                <?php if ($detailImg) : ?>
+                    <hr>
+                    <div class="row justify-content-center">
+                        <?php foreach ($detailImg as $detail) : ?>
+                            <div class="col-lg-3">
+                                <div class="card mt-3" style="width: 18rem;">
+                                    <img src="assets/img/vehicle/<?= $client; ?>/<?= $vehicle->brand; ?>/<?= $vehicle->type; ?>/<?= $detail->img; ?>" class="card-img-top mt-2">
+                                    <div class="card-body">
+                                        <h6>Added By: <?= user_profile($detail->userAdded)->nama; ?></h6>
+                                        <button type="button" class="btn btn-danger" onclick="deleteImg(<?= $detail->id; ?>,'<?= $client; ?>','<?= $vehicle->brand; ?>','<?= $vehicle->type; ?>','<?= $detail->img; ?>')">Delete</button>
                                     </div>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </form>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
         </div>
     </div>
 </div>
